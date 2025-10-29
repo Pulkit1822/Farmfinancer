@@ -1,0 +1,75 @@
+<app-navbar></app-navbar>
+
+<!-- Flying Coins Logo Animation - Multiple coins with random properties -->
+<div class="coin-container" *ngIf="showCoin">
+  <img src="assets/logo.png" alt="Logo" class="flying-coin coin-1" />
+  <img src="assets/logo.png" alt="Logo" class="flying-coin coin-2" />
+  <img src="assets/logo.png" alt="Logo" class="flying-coin coin-3" />
+  <img src="assets/logo.png" alt="Logo" class="flying-coin coin-4" />
+  <img src="assets/logo.png" alt="Logo" class="flying-coin coin-5" />
+</div>
+
+<div class="login-container">
+  <h2>Login</h2>
+  
+  <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+    
+    <!-- Email -->
+    <div class="form-group">
+      <input 
+        type="email" 
+        name="Email" 
+        id="email"
+        [(ngModel)]="loginData.Email" 
+        (ngModelChange)="validateEmailLive()"
+        (keydown.tab)="preventTabIfEmpty($event, loginData.Email, 'Email')"
+        required 
+        email 
+        class="form-input"
+        placeholder=" "
+      />
+      <label for="email" class="form-label">Email address</label>
+      <div *ngIf="emailError" class="error">{{ emailError }}</div>
+      <div *ngIf="!emailError && formSubmitted && !loginData.Email" class="error">*Email is required</div>
+    </div>
+    
+    <!-- Password -->
+    <div class="form-group password-group">
+      <input 
+        [type]="showPassword ? 'text' : 'password'"
+        name="Password" 
+        id="password"
+        [(ngModel)]="loginData.Password" 
+        (ngModelChange)="validatePasswordLive()"
+        (keydown.tab)="preventTabIfEmpty($event, loginData.Password, 'Password')"
+        required 
+        class="form-input"
+        placeholder=" "
+      />
+      <button type="button" class="eye-toggle" (click)="togglePasswordVisibility()" tabindex="-1" [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+        <svg *ngIf="!showPassword" class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+        <svg *ngIf="showPassword" class="eye-icon eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+          <line x1="1" y1="1" x2="23" y2="23"></line>
+        </svg>
+      </button>
+      <label for="password" class="form-label">Password</label>
+      <div *ngIf="passwordError" class="error">{{ passwordError }}</div>
+      <div *ngIf="!passwordError && formSubmitted && !loginData.Password" class="error">*Password is required</div>
+    </div>
+    
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error error-box">{{ errorMessage }}</div>
+    
+    <!-- Submit Button -->
+    <button type="submit" class="submit-btn">Login</button>
+    
+    <!-- Register Redirect Message -->
+    <div class="register-redirect">
+      Don't have an account? <a (click)="goToRegister()" class="register-link">Register here</a>
+    </div>
+  </form>
+</div>

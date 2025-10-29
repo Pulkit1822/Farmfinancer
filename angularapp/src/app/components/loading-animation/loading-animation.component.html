@@ -1,0 +1,70 @@
+<div class="loading-container {{className}}">
+    <div class="loading-svg-wrapper">
+      <svg viewBox="0 0 400 112" class="loading-svg">
+        <style>
+          .loading-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw 2.5s ease-in-out infinite;
+          }
+          .loading-line:nth-child(1) { animation-delay: 0s; }
+          .loading-line:nth-child(2) { animation-delay: 0.1s; }
+          .loading-line:nth-child(3) { animation-delay: 0.2s; }
+          .loading-line:nth-child(4) { animation-delay: 0.3s; }
+          .loading-line:nth-child(5) { animation-delay: 0.4s; }
+          .loading-line:nth-child(6) { animation-delay: 0.5s; }
+          .loading-line:nth-child(7) { animation-delay: 0.6s; }
+          .loading-line:nth-child(8) { animation-delay: 0.7s; }
+          
+          @keyframes draw {
+            0% {
+              stroke-dashoffset: 1000;
+              opacity: 0;
+            }
+            15% {
+              opacity: 1;
+            }
+            60% {
+              stroke-dashoffset: 0;
+              opacity: 1;
+            }
+            85% {
+              opacity: 1;
+            }
+            100% {
+              stroke-dashoffset: -1000;
+              opacity: 0;
+            }
+          }
+        </style>
+        <g stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+          <!-- L -->
+          <polyline class="loading-line" points="25 22 25 90 50 90"/>
+  
+          <!-- O -->
+          <path class="loading-line" d="M75 22c18.778 0 34 15.222 34 34s-15.222 34-34 34-34-15.222-34-34 15.222-34 34-34z"/>
+  
+          <!-- A -->
+          <path class="loading-line" d="M125 90V56.136C124.66 46.48 117.225 39 108 39c-9.389 0-17 7.611-17 17s7.611 17 17 17h8.5v17H108C89.222 90 74 74.778 74 56s15.222-34 34-34c18.61 0 33.433 14.994 34 33.875V90h-17z"/>
+  
+          <!-- D -->
+          <polyline class="loading-line" points="142 22 142 90"/>
+          <path class="loading-line" d="M142 22c18.778 0 34 15.222 34 34s-15.222 34-34 34"/>
+  
+          <!-- I -->
+          <polyline class="loading-line" points="192 22.035 192 90"/>
+          <path class="loading-line" d="M192 22a8.5 8.5 0 1 1-8.477 9.067v-1.134c.283-4.42 3.966-7.933 8.477-7.933z"/>
+  
+          <!-- N -->
+          <path class="loading-line" d="M208 90V55.74C208.567 36.993 223.39 22 242 22c18.778 0 34 15.222 34 34v34h-17V56c0-9.389-7.611-17-17-17-9.225 0-16.66 7.48-17 17.136V90h-17z"/>
+  
+          <!-- G -->
+          <path class="loading-line" d="M333 56c0-18.778-15.222-34-34-34s-34 15.222-34 34c0 18.778 15.222 34 34 34h22c0-9.389-7.611-17-17-17h0c-4.42 0-8.194 1.833-11 4.75"/>
+        </g>
+      </svg>
+    </div>
+    <p class="loading-text">
+      {{ text }}
+    </p>
+  </div>
+  

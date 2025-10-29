@@ -1,0 +1,91 @@
+<nav class="navbar">
+  <a routerLink="/admin" class="navbar-title" tabindex="0" role="link">FarmFinancer</a>
+
+  <div class="navbar-links">
+    <div class="dropdown" 
+         (mouseenter)="onDropdownEnter()" 
+         (mouseleave)="onDropdownLeave()"
+         (keydown)="onDropdownKeydown($event)">
+      <a class="dropdown-toggle" 
+         role="button" 
+         tabindex="0"
+         [attr.aria-expanded]="showLoanSubmenu"
+         aria-haspopup="true"
+         (click)="toggleLoanSubmenu()"
+         (keydown.enter)="toggleLoanSubmenu()"
+         (keydown.space)="toggleLoanSubmenu()">
+        Loan Management
+        <span class="dropdown-arrow" [class.rotated]="showLoanSubmenu">▼</span>
+      </a>
+      <div class="dropdown-menu" 
+           [class.show]="showLoanSubmenu"
+           role="menu"
+           [attr.aria-hidden]="!showLoanSubmenu"
+           (mouseenter)="onMenuEnter()"
+           (mouseleave)="onMenuLeave()">
+        <a routerLink="/admin/createloan" 
+           routerLinkActive="active"
+           class="dropdown-item"
+           role="menuitem"
+           tabindex="0"
+           (click)="closeDropdown()">Create Loan</a>
+        <a routerLink="/admin/viewloan" 
+           routerLinkActive="active"
+           class="dropdown-item"
+           role="menuitem"
+           tabindex="0"
+           (click)="closeDropdown()">View Loans</a>
+        <a routerLink="/admin/requestedloan" 
+           routerLinkActive="active"
+           class="dropdown-item"
+           role="menuitem"
+           tabindex="0"
+           (click)="closeDropdown()">Requested Loans</a>
+      </div>
+    </div>
+
+    <a routerLink="/admin/adminviewfeedback" routerLinkActive="active" class="navbar-link">View Feedback</a>
+    
+    <div class="user-section">
+      <span class="username">{{ username }}</span>
+      <a (click)="logout()" class="logout-btn" tabindex="0" role="button">Logout</a>
+    </div>
+    
+    <app-theme-toggle></app-theme-toggle>
+  </div>
+</nav>
+
+<!-- Show home container ONLY when on /admin route -->
+<div class="home-container" *ngIf="isAdminHomePage">
+  <main class="home-content">
+    <section class="hero-section">
+      <div class="hero-container">
+        <div class="hero-left">
+          <h1 class="hero-title">
+            Welcome<span class="accent"> Admin</span>
+          </h1>
+          <p class="hero-subtitle">
+            Manage agricultural loans efficiently. Monitor applications, track disbursements, and support farmers' financial growth.
+          </p>
+          <div class="hero-buttons">
+            <button class="btn-primary" routerLink="/admin/viewloan">
+              View Loans
+            </button>
+            <button class="btn-secondary" routerLink="/admin/createloan">
+              Create Loan
+            </button>
+          </div>
+          
+        </div>
+        
+        <div class="hero-right">
+          <div class="logo-container">
+            <div class="logo-wrapper">
+              <img src="assets/logo.png" alt="Farm Financer Logo" class="hero-logo">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

@@ -1,0 +1,132 @@
+:host {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+}
+
+.error-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.error-container {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 30px 15px; /* Reduced from 60px 20px */
+  font-family: 'Geist', sans-serif; /* Updated to use Geist font */
+  color: #ffffff;
+  max-width: 500px; /* Reduced from 600px */
+  margin: 0 auto;
+  top: 50%;
+  transform: translateY(-50%);
+  
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 2px solid #dc3545;
+  box-shadow: 
+    0 0 50px rgba(220, 53, 69, 0.3),
+    inset 0 0 20px rgba(220, 53, 69, 0.1);
+}
+
+.error-container h1 {
+  font-family: 'Geist', sans-serif; /* Explicitly set Geist for heading */
+  font-size: 3.5rem; /* Reduced from 4rem */
+  margin-bottom: 15px; /* Reduced from 20px */
+  color: #dc3545; /* Sharp danger red - matches glitch colors */
+  font-weight: 900; /* Extra bold for sharp appearance */
+  text-shadow: none; /* Remove all glow effects */
+  letter-spacing: -0.02em; /* Tighter letter spacing for sharpness */
+}
+
+.error-container h2 {
+  font-family: 'Geist', sans-serif; /* Explicitly set Geist for subheading */
+  font-size: 1.3rem; /* Reduced from 1.5rem */
+  margin-bottom: 15px; /* Reduced from 20px */
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.error-container p {
+  font-family: 'Geist', sans-serif; /* Explicitly set Geist for paragraph */
+  font-size: 1.1rem; /* Reduced from 1.2rem */
+  margin-bottom: 25px; /* Reduced from 30px */
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.error-container a {
+  font-family: 'Geist', sans-serif; /* Explicitly set Geist for link */
+  color: #ff8787;
+  text-decoration: none;
+  font-weight: 600; /* Updated font weight */
+  padding: 10px 20px; /* Reduced from 12px 24px */
+  border: 2px solid #ff8787;
+  border-radius: 8px;
+  display: inline-block;
+  transition: all 0.3s ease;
+  background: rgba(255, 135, 135, 0.1);
+  margin-top: 10px; /* Reduced from default */
+}
+
+.error-container a:hover {
+  background: #ff8787;
+  color: #000000;
+  box-shadow: 0 0 20px rgba(255, 135, 135, 0.5);
+  transform: translateY(-2px);
+  font-weight: 600; /* Maintain font weight on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .error-container {
+    padding: 25px 15px; /* Reduced from 40px 20px */
+    margin: 15px; /* Reduced from 20px */
+  }
+  
+  .error-container h1 {
+    font-size: 2.8rem; /* Reduced from 3rem */
+  }
+  
+  .error-container h2 {
+    font-size: 1.2rem; /* Reduced from 1.3rem */
+  }
+  
+  .error-container p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .error-container {
+    padding: 20px 12px; /* Further reduced for mobile */
+    margin: 10px; /* Further reduced */
+  }
+  
+  .error-container h1 {
+    font-size: 2.2rem; /* Reduced from 2.5rem */
+  }
+  
+  .error-container h2 {
+    font-size: 1rem; /* Reduced from 1.1rem */
+  }
+  
+  .error-container p {
+    font-size: 0.9rem;
+  }
+  
+  .error-container a {
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 8px 16px; /* Reduced padding for mobile */
+  }
+}

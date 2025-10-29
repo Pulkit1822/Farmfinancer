@@ -1,0 +1,65 @@
+<!-- <app-usernav></app-usernav>
+<div class="user-loan-container">
+  <h2>Available Loans</h2>
+  <div *ngIf="loans.length === 0" class="no-records">
+    Oops! No records Found
+  </div>
+  <table *ngIf="loans.length > 0" class="loan-table">
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Loan Type</th>
+        <th>Loan Description</th>
+        <th>Interest Rate</th>
+        <th>Maximum Amount</th>
+        <th>Repayment Tenure (Months)</th>
+        <th>Eligibility</th>
+        <th>Documents Required</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let loan of loans; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ loan.LoanType }}</td>
+        <td>{{ loan.Description }}</td>
+        <td>{{ loan.InterestRate }}%</td>
+        <td>₹{{ loan.MaximumAmount }}</td>
+        <td>{{ loan.RepaymentTenure }}</td>
+        <td>{{ loan.Eligibility }}</td>
+        <td>{{ loan.DocumentsRequired }}</td>
+        <td>
+          <button *ngIf="!isApplied(loan.LoanId!)" (click)="applyLoan(loan.LoanId!)">Apply</button>
+          <span *ngIf="isApplied(loan.LoanId!)">Applied</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div> -->
+
+<app-usernav></app-usernav>
+
+<!-- Animated Loading -->
+<div *ngIf="isLoading" class="loading-wrapper">
+  <app-loading-animation></app-loading-animation>
+</div>
+
+<!-- Main Content -->
+<div *ngIf="!isLoading" class="user-loan-container">
+  <h2>Available Loans</h2>
+  <div *ngIf="loans.length === 0" class="no-records">
+    No records found
+  </div>
+
+  <ag-grid-angular
+    style="width: 100%; height: 500px;"
+    class="ag-theme-alpine"
+    [rowData]="loans"
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    pagination="true"
+    [paginationPageSize]="10"
+    (gridReady)="onGridReady($event)"
+    (cellClicked)="onCellClicked($event)">
+  </ag-grid-angular>
+</div>

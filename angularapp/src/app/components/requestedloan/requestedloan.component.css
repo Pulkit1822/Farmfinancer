@@ -1,0 +1,660 @@
+@import "~ag-grid-community/dist/styles/ag-grid.css";
+@import "~ag-grid-community/dist/styles/ag-theme-alpine.css";
+
+/* Loading Wrapper */
+.loading-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  margin-top: 120px;
+}
+
+/* Container styling */
+.requested-loan-container {
+  padding: 20px;
+  margin-top: 120px;
+  font-family: 'Geist', sans-serif;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+  font-family: 'Geist', sans-serif;
+  font-weight: 600;
+  font-size: 28px;
+}
+
+/* Filters Container */
+.filters-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+/* Search Input */
+.search-input {
+  width: 350px;
+  padding: 12px 18px;
+  border: 2px solid #e6d5b8;
+  border-radius: 25px;
+  font-size: 15px;
+  font-family: 'Geist', sans-serif;
+  background: linear-gradient(135deg, #fefbf3 0%, #fffdf7 100%);
+  color: #3b2f1a;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(212, 175, 55, 0.15);
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: #8b7355;
+  opacity: 0.8;
+}
+
+.search-input:focus {
+  border-color: #d4af37;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+  background: #ffffff;
+  transform: translateY(-1px);
+}
+
+.search-input:hover {
+  border-color: #c9a961;
+  box-shadow: 0 3px 8px rgba(212, 175, 55, 0.2);
+}
+
+/* Status Filter Dropdown */
+.status-filter {
+  padding: 12px 18px;
+  border: 2px solid #e6d5b8;
+  border-radius: 25px;
+  font-size: 15px;
+  font-family: 'Geist', sans-serif;
+  background: linear-gradient(135deg, #fefbf3 0%, #fffdf7 100%);
+  color: #3b2f1a;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(212, 175, 55, 0.15);
+  outline: none;
+  cursor: pointer;
+  min-width: 150px;
+}
+
+.status-filter:focus {
+  border-color: #d4af37;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+  background: #ffffff;
+}
+
+.status-filter:hover {
+  border-color: #c9a961;
+  box-shadow: 0 3px 8px rgba(212, 175, 55, 0.2);
+}
+
+/* AG Grid custom styling - Light Mode */
+.ag-theme-alpine {
+  --ag-header-background-color: #F9F3E1;
+  --ag-header-foreground-color: #1f2937;
+  --ag-font-family: 'Geist', sans-serif;
+  --ag-font-size: 14px;
+  --ag-background-color: #fefbf3;
+  --ag-foreground-color: #3b2f1a;
+  --ag-border-color: #e6d5b8;
+  --ag-odd-row-background-color: #f9f6ed;
+  --ag-row-hover-color: rgba(212, 175, 55, 0.25);
+  --ag-row-height: 60px;
+  --ag-header-height: 56px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Header row - Gold gradient */
+.ag-theme-alpine .ag-header {
+  background: linear-gradient(135deg, #d4af37 0%, #c9a961 100%) !important;
+  border-bottom: 2px solid #b8960a !important;
+  font-family: 'Geist', sans-serif;
+  font-weight: 600;
+}
+
+.ag-theme-alpine .ag-header-cell {
+  font-family: 'Geist', sans-serif !important;
+  font-weight: 600 !important;
+  color: #2d2416 !important;
+  text-transform: uppercase;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.5px;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 16px !important;
+}
+
+/* Grid cells */
+.ag-theme-alpine .ag-row {
+  background-color: #fefbf3 !important;
+  border-bottom: 1px solid #f5e6d3 !important;
+}
+
+.ag-theme-alpine .ag-row-even {
+  background-color: #fffdf7 !important;
+}
+
+.ag-theme-alpine .ag-row-odd {
+  background-color: #f9f6ed !important;
+}
+
+.ag-theme-alpine .ag-cell {
+  font-family: 'Geist', sans-serif !important;
+  color: #3b2f1a !important;
+  display: flex !important;
+  align-items: center !important;
+  line-height: 1.5;
+  padding: 0 16px !important;
+}
+
+/* Row hover effect */
+.ag-theme-alpine .ag-row-hover {
+  background-color: rgba(212, 175, 55, 0.25) !important;
+}
+
+/* Grid wrapper */
+.ag-theme-alpine .ag-root-wrapper {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e6d5b8;
+}
+
+/* Center align specific columns */
+.ag-theme-alpine .ag-cell {
+  justify-content: flex-start;
+}
+
+/* Ensure proper spacing and no empty gaps */
+.ag-theme-alpine .ag-center-cols-container {
+  width: 100% !important;
+}
+
+.ag-theme-alpine .ag-header-viewport {
+  overflow-x: hidden !important;
+}
+
+/* Status Badge Styling */
+.status-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: 'Geist', sans-serif;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+/* Pending Status - Yellow/Gold */
+.status-pending {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  color: #3b2f1a;
+  border: 2px solid #e6c200;
+}
+
+/* Approved Status - Green */
+.status-approved {
+  background: linear-gradient(135deg, #28a745 0%, #5cb85c 100%);
+  color: #ffffff;
+  border: 2px solid #218838;
+}
+
+/* Rejected Status - Red */
+.status-rejected {
+  background: linear-gradient(135deg, #e74c3c 0%, #ff6b6b 100%);
+  color: #ffffff;
+  border: 2px solid #c0392b;
+}
+
+/* Unknown Status - Gray */
+.status-unknown {
+  background: linear-gradient(135deg, #95a5a6 0%, #bdc3c7 100%);
+  color: #ffffff;
+  border: 2px solid #7f8c8d;
+}
+
+/* Approve Button - Green Gradient */
+::ng-deep .btn-approve {
+  padding: 8px 16px !important;
+  background: linear-gradient(135deg, #28a745 0%, #5cb85c 100%) !important;
+  color: #ffffff !important;
+  border: 2px solid #218838 !important;
+  border-radius: 20px !important;
+  cursor: pointer !important;
+  font-family: 'Geist', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 3px 8px rgba(40, 167, 69, 0.4), 
+              0 1px 3px rgba(40, 167, 69, 0.2) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-right: 6px !important;
+  position: relative;
+  overflow: hidden;
+}
+
+::ng-deep .btn-approve::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+::ng-deep .btn-approve:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+::ng-deep .btn-approve:hover {
+  background: linear-gradient(135deg, #5cb85c 0%, #28a745 100%) !important;
+  transform: translateY(-2px) scale(1.05) !important;
+  box-shadow: 0 6px 16px rgba(40, 167, 69, 0.5), 
+              0 3px 8px rgba(40, 167, 69, 0.3) !important;
+  border-color: #28a745 !important;
+}
+
+::ng-deep .btn-approve:disabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  transform: none !important;
+  background: linear-gradient(135deg, #a8d5a8 0%, #c4e1c4 100%) !important;
+  border-color: #95c895 !important;
+}
+
+::ng-deep .btn-approve:disabled:hover {
+  transform: none !important;
+  box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2) !important;
+}
+
+/* Reject Button - Red Gradient */
+::ng-deep .btn-reject {
+  padding: 8px 16px !important;
+  background: linear-gradient(135deg, #e74c3c 0%, #ff6b6b 100%) !important;
+  color: #ffffff !important;
+  border: 2px solid #c0392b !important;
+  border-radius: 20px !important;
+  cursor: pointer !important;
+  font-family: 'Geist', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 3px 8px rgba(231, 76, 60, 0.4), 
+              0 1px 3px rgba(231, 76, 60, 0.2) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  position: relative;
+  overflow: hidden;
+}
+
+::ng-deep .btn-reject::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+::ng-deep .btn-reject:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+::ng-deep .btn-reject:hover {
+  background: linear-gradient(135deg, #ff6b6b 0%, #e74c3c 100%) !important;
+  transform: translateY(-2px) scale(1.05) !important;
+  box-shadow: 0 6px 16px rgba(231, 76, 60, 0.5), 
+              0 3px 8px rgba(231, 76, 60, 0.3) !important;
+  border-color: #e74c3c !important;
+}
+
+::ng-deep .btn-reject:disabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  transform: none !important;
+  background: linear-gradient(135deg, #f5b5b0 0%, #f7c9c6 100%) !important;
+  border-color: #e8a49f !important;
+}
+
+::ng-deep .btn-reject:disabled:hover {
+  transform: none !important;
+  box-shadow: 0 2px 4px rgba(231, 76, 60, 0.2) !important;
+}
+
+/* Details Button - Blue/Gold Gradient */
+::ng-deep .btn-details {
+  padding: 8px 16px !important;
+  background: linear-gradient(135deg, #4a90e2 0%, #7bb3ff 100%) !important;
+  color: #ffffff !important;
+  border: 2px solid #3a7bc8 !important;
+  border-radius: 20px !important;
+  cursor: pointer !important;
+  font-family: 'Geist', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 3px 8px rgba(74, 144, 226, 0.4), 
+              0 1px 3px rgba(74, 144, 226, 0.2) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  position: relative;
+  overflow: hidden;
+}
+
+::ng-deep .btn-details::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+::ng-deep .btn-details:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+::ng-deep .btn-details:hover {
+  background: linear-gradient(135deg, #5ba3ff 0%, #4a90e2 100%) !important;
+  transform: translateY(-2px) scale(1.05) !important;
+  box-shadow: 0 6px 16px rgba(74, 144, 226, 0.5), 
+              0 3px 8px rgba(74, 144, 226, 0.3) !important;
+  border-color: #4a90e2 !important;
+}
+
+/* Modal Styling */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background: linear-gradient(135deg, #fefbf3 0%, #fffdf7 100%);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 2px solid #e6d5b8;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  font-family: 'Geist', sans-serif;
+  position: relative;
+}
+
+.modal-content h3 {
+  color: #3b2f1a;
+  font-weight: 600;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.modal-content p {
+  color: #3b2f1a;
+  margin: 12px 0;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.modal-content strong {
+  color: #5c4a2f;
+  font-weight: 600;
+}
+
+.modal-content img {
+  margin-top: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-width: 100%;
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #8b7355;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  line-height: 1;
+}
+
+.close:hover {
+  color: #d4af37;
+  transform: scale(1.2);
+}
+
+/* Pagination styling */
+.ag-theme-alpine .ag-paging-panel {
+  font-family: 'Geist', sans-serif !important;
+  border-top: 1px solid #e6d5b8 !important;
+  background: #fefbf3 !important;
+  color: #3b2f1a !important;
+}
+
+/* ============================================ */
+/* DARK MODE ADJUSTMENTS */
+/* ============================================ */
+
+:host-context(.dark) h2 {
+  color: #f5e6d3;
+}
+
+/* Dark Mode Status Badges */
+:host-context(.dark) .status-pending {
+  background: linear-gradient(135deg, #ffed4e 0%, #fffb96 100%);
+  color: #1a1612;
+  border-color: #ffd700;
+  box-shadow: 0 3px 8px rgba(255, 215, 0, 0.4);
+}
+
+:host-context(.dark) .status-approved {
+  background: linear-gradient(135deg, #5cb85c 0%, #6fce6f 100%);
+  color: #ffffff;
+  border-color: #28a745;
+  box-shadow: 0 3px 8px rgba(92, 184, 92, 0.4);
+}
+
+:host-context(.dark) .status-rejected {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 100%);
+  color: #ffffff;
+  border-color: #e74c3c;
+  box-shadow: 0 3px 8px rgba(255, 107, 107, 0.4);
+}
+
+:host-context(.dark) .status-unknown {
+  background: linear-gradient(135deg, #bdc3c7 0%, #d5dbdb 100%);
+  color: #2d2416;
+  border-color: #95a5a6;
+  box-shadow: 0 3px 8px rgba(149, 165, 166, 0.4);
+}
+
+/* Dark Mode Search & Filter */
+:host-context(.dark) .search-input,
+:host-context(.dark) .status-filter {
+  background: linear-gradient(135deg, #2d2416 0%, #3b2f1a 100%);
+  color: #f5e6d3;
+  border-color: #5c4a2f;
+  box-shadow: 0 2px 6px rgba(212, 175, 55, 0.2);
+}
+
+:host-context(.dark) .search-input::placeholder {
+  color: #c9b898;
+  opacity: 0.7;
+}
+
+:host-context(.dark) .search-input:focus,
+:host-context(.dark) .status-filter:focus {
+  border-color: #d4af37;
+  background: #3b2f1a;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+:host-context(.dark) .search-input:hover,
+:host-context(.dark) .status-filter:hover {
+  border-color: #c9a961;
+  box-shadow: 0 3px 8px rgba(212, 175, 55, 0.3);
+}
+
+:host-context(.dark) .ag-theme-alpine {
+  --ag-background-color: #fefbf3;
+  --ag-foreground-color: #3b2f1a;
+  --ag-border-color: #e6d5b8;
+  --ag-odd-row-background-color: #f9f6ed;
+  --ag-row-hover-color: rgba(212, 175, 55, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+:host-context(.dark) .ag-theme-alpine .ag-header {
+  background: linear-gradient(135deg, #d4af37 0%, #c9a961 100%) !important;
+  border-bottom: 2px solid #b8960a !important;
+}
+
+:host-context(.dark) .ag-theme-alpine .ag-header-cell {
+  color: #2d2416 !important;
+}
+
+:host-context(.dark) .ag-theme-alpine .ag-cell {
+  color: #3b2f1a !important;
+}
+
+/* Dark Mode Buttons */
+:host-context(.dark) .btn-approve {
+  background: linear-gradient(135deg, #5cb85c 0%, #6fce6f 100%) !important;
+  border-color: #28a745 !important;
+  box-shadow: 0 3px 10px rgba(92, 184, 92, 0.5), 
+              0 1px 4px rgba(92, 184, 92, 0.3) !important;
+}
+
+:host-context(.dark) .btn-approve:hover {
+  background: linear-gradient(135deg, #6fce6f 0%, #8be88b 100%) !important;
+  box-shadow: 0 6px 18px rgba(92, 184, 92, 0.6), 
+              0 3px 10px rgba(92, 184, 92, 0.4) !important;
+}
+
+:host-context(.dark) .btn-reject {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 100%) !important;
+  border-color: #e74c3c !important;
+  box-shadow: 0 3px 10px rgba(255, 107, 107, 0.5), 
+              0 1px 4px rgba(255, 107, 107, 0.3) !important;
+}
+
+:host-context(.dark) .btn-reject:hover {
+  background: linear-gradient(135deg, #ff8787 0%, #ffa3a3 100%) !important;
+  box-shadow: 0 6px 18px rgba(255, 107, 107, 0.6), 
+              0 3px 10px rgba(255, 107, 107, 0.4) !important;
+}
+
+:host-context(.dark) .btn-details {
+  background: linear-gradient(135deg, #5ba3ff 0%, #7bb3ff 100%) !important;
+  border-color: #4a90e2 !important;
+  box-shadow: 0 3px 10px rgba(91, 163, 255, 0.5), 
+              0 1px 4px rgba(91, 163, 255, 0.3) !important;
+}
+
+:host-context(.dark) .btn-details:hover {
+  background: linear-gradient(135deg, #7bb3ff 0%, #9dc9ff 100%) !important;
+  box-shadow: 0 6px 18px rgba(91, 163, 255, 0.6), 
+              0 3px 10px rgba(91, 163, 255, 0.4) !important;
+}
+
+/* Dark Mode Modal */
+:host-context(.dark) .modal-content {
+  background: linear-gradient(135deg, #2d2416 0%, #3b2f1a 100%);
+  border-color: #5c4a2f;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+:host-context(.dark) .modal-content h3,
+:host-context(.dark) .modal-content p,
+:host-context(.dark) .modal-content strong {
+  color: #f5e6d3;
+}
+
+:host-context(.dark) .close {
+  color: #c9b898;
+}
+
+:host-context(.dark) .close:hover {
+  color: #ffd700;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .requested-loan-container {
+    margin-top: 140px;
+    padding: 15px;
+  }
+  
+  .filters-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+  
+  .status-filter {
+    width: 100%;
+  }
+  
+  .ag-theme-alpine {
+    font-size: 12px;
+  }
+  
+  .ag-theme-alpine .ag-header-cell {
+    font-size: 0.75rem !important;
+  }
+  
+  .btn-approve,
+  .btn-reject,
+  .btn-details {
+    padding: 6px 12px !important;
+    font-size: 0.75rem !important;
+    margin-right: 4px !important;
+  }
+  
+  .modal-content {
+    max-width: 90%;
+    padding: 20px;
+  }
+}

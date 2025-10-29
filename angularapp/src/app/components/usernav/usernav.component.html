@@ -1,0 +1,87 @@
+<nav class="navbar">
+  <a routerLink="/user" class="navbar-title" tabindex="0" role="link">FarmFinancer</a>
+
+  <div class="navbar-links">
+    <a routerLink="/user/userviewloan" routerLinkActive="active" class="navbar-link">View Loans</a>
+    
+    <a routerLink="/user/userappliedloan" routerLinkActive="active" class="navbar-link">Applied Loans</a>
+
+    <div class="dropdown" 
+         (mouseenter)="onDropdownEnter()" 
+         (mouseleave)="onDropdownLeave()"
+         (keydown)="onDropdownKeydown($event)">
+      <a class="dropdown-toggle" 
+         role="button" 
+         tabindex="0"
+         [attr.aria-expanded]="showFeedbackSubmenu"
+         aria-haspopup="true"
+         (click)="toggleFeedbackSubmenu()"
+         (keydown.enter)="toggleFeedbackSubmenu()"
+         (keydown.space)="toggleFeedbackSubmenu()">
+        Feedback
+        <span class="dropdown-arrow" [class.rotated]="showFeedbackSubmenu">▼</span>
+      </a>
+      <div class="dropdown-menu" 
+           [class.show]="showFeedbackSubmenu"
+           role="menu"
+           [attr.aria-hidden]="!showFeedbackSubmenu"
+           (mouseenter)="onMenuEnter()"
+           (mouseleave)="onMenuLeave()">
+        <a routerLink="/user/useraddfeedback" 
+           routerLinkActive="active"
+           class="dropdown-item"
+           role="menuitem"
+           tabindex="0"
+           (click)="closeDropdown()">Post Feedback</a>
+        <a routerLink="/user/userviewfeedback" 
+           routerLinkActive="active"
+           class="dropdown-item"
+           role="menuitem"
+           tabindex="0"
+           (click)="closeDropdown()">My Feedbacks</a>
+      </div>
+    </div>
+    
+    <div class="user-section">
+      <span class="username">{{ username }}</span>
+      <a (click)="logout()" class="logout-btn" tabindex="0" role="button">Logout</a>
+    </div>
+    
+    <app-theme-toggle></app-theme-toggle>
+  </div>
+</nav>
+
+<!-- Show home container ONLY when on /user route -->
+<div class="home-container" *ngIf="isUserHomePage">
+  <main class="home-content">
+    <section class="hero-section">
+      <div class="hero-container">
+        <div class="hero-left">
+          <h1 class="hero-title">
+            Welcome<span class="accent"> User</span>
+          </h1>
+          <p class="hero-subtitle">
+            Access agricultural loans efficiently. Browse available loans, apply for funding, and grow your farming business with flexible financial support.
+          </p>
+          <div class="hero-buttons">
+            <button class="btn-primary" routerLink="/user/userviewloan">
+              View Loans
+            </button>
+            <button class="btn-secondary" routerLink="/user/userappliedloan">
+              Applied Loans
+            </button>
+          </div>
+          
+        </div>
+        
+        <div class="hero-right">
+          <div class="logo-container">
+            <div class="logo-wrapper">
+              <img src="assets/logo.png" alt="Farm Financer Logo" class="hero-logo">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

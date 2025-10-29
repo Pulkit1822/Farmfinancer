@@ -1,0 +1,59 @@
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    font-family: 'Geist', sans-serif;
+  }
+  
+  .loading-svg-wrapper {
+    width: 320px;
+    height: 112px;
+    color: #d4af37; /* Gold color for light mode */
+  }
+  
+  .loading-svg {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .loading-text {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #5c4a2f; /* Dark beige/brown for light mode */
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    margin: 0;
+    letter-spacing: 0.5px;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+  
+  /* Dark mode styles */
+  :host-context(.dark) .loading-svg-wrapper {
+    color: #f5e6d3; /* Light beige for dark mode */
+  }
+  
+  :host-context(.dark) .loading-text {
+    color: #f5e6d3; /* Light beige for dark mode */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .loading-svg-wrapper {
+      width: 240px;
+      height: 84px;
+    }
+    
+    .loading-text {
+      font-size: 1rem;
+    }
+  }
+  

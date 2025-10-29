@@ -1,0 +1,12 @@
+angularapp/.browserslistrc
+angularapp/.editorconfig
+angularapp/angular.json
+angularapp/karma.conf.js
+angularapp/tsconfig.app.json
+angularapp/tsconfig.json
+angularapp/tsconfig.spec.json
+angularapp/tslint.json
+angularapp/node_modules
+angularapp/package-lock.json
+angularapp/src/environments/environment.ts
+

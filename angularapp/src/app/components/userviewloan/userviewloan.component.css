@@ -1,0 +1,285 @@
+@import "~ag-grid-community/dist/styles/ag-grid.css";
+@import "~ag-grid-community/dist/styles/ag-theme-alpine.css";
+
+/* Loading Wrapper */
+.loading-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  margin-top: 120px;
+}
+
+/* Container styling */
+.user-loan-container {
+  padding: 20px;
+  margin-top: 120px;
+  font-family: 'Geist', sans-serif;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+  font-family: 'Geist', sans-serif;
+  font-weight: 600;
+}
+
+.no-records {
+  text-align: center;
+  color: #dc3545;
+  font-weight: bold;
+  margin-top: 20px;
+  font-family: 'Geist', sans-serif;
+}
+
+/* AG Grid custom styling - Light Mode */
+::ng-deep .ag-theme-alpine {
+  --ag-header-background-color: #F9F3E1;
+  --ag-header-foreground-color: #1f2937;
+  --ag-font-family: 'Geist', sans-serif;
+  --ag-font-size: 14px;
+  --ag-background-color: #fefbf3;
+  --ag-foreground-color: #3b2f1a;
+  --ag-border-color: #e6d5b8;
+  --ag-odd-row-background-color: #f9f6ed;
+  --ag-row-hover-color: rgba(212, 175, 55, 0.25);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Header row - Darker beige/gold to stand out */
+.ag-theme-alpine .ag-header {
+  background: linear-gradient(135deg, #d4af37 0%, #c9a961 100%) !important;
+  border-bottom: 2px solid #b8960a !important;
+  font-family: 'Geist', sans-serif;
+  font-weight: 600;
+}
+
+.ag-theme-alpine .ag-header-cell {
+  font-family: 'Geist', sans-serif !important;
+  font-weight: 600 !important;
+  color: #2d2416 !important;
+  text-transform: uppercase;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.5px;
+}
+
+.ag-theme-alpine .ag-header-cell-label {
+  font-family: 'Geist', sans-serif !important;
+}
+
+/* Grid cells - Light background with visible striping */
+.ag-theme-alpine .ag-row {
+  background-color: #fefbf3 !important;
+  border-bottom: 1px solid #f5e6d3 !important;
+}
+
+.ag-theme-alpine .ag-row-even {
+  background-color: #fffdf7 !important;
+}
+
+.ag-theme-alpine .ag-row-odd {
+  background-color: #f9f6ed !important;
+}
+
+.ag-theme-alpine .ag-cell {
+  font-family: 'Geist', sans-serif !important;
+  color: #3b2f1a !important;
+  display: flex;
+  align-items: center;
+  line-height: 1.5;
+}
+
+/* Row hover effect - More visible */
+.ag-theme-alpine .ag-row-hover {
+  background-color: rgba(212, 175, 55, 0.25) !important;
+}
+
+/* Rounded borders for grid wrapper */
+.ag-theme-alpine .ag-root-wrapper {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e6d5b8;
+}
+
+/* Apply Button - Gold Gradient (Light Mode) */
+::ng-deep .btn-apply {
+  padding: 8px 16px !important;
+  background: linear-gradient(135deg, #d4af37 0%, #f4e4bc 100%) !important;
+  color: #3b2f1a !important;
+  border: 1px solid #c9a961 !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  font-family: 'Geist', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 0.85rem !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 2px 6px rgba(212, 175, 55, 0.3) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+::ng-deep  .btn-apply:hover {
+  background: linear-gradient(135deg, #c19b2d 0%, #e6d5b8 100%) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4) !important;
+  color: #2d2416 !important;
+}
+
+/* Applied Button - Muted Beige (Light Mode) */
+::ng-deep .applied-btn {
+  padding: 8px 16px !important;
+  background: #e6d5b8 !important;
+  color: #8b7355 !important;
+  border: 1px solid #d1c4a8 !important;
+  border-radius: 6px !important;
+  cursor: not-allowed !important;
+  font-family: 'Geist', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 0.85rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.8;
+}
+
+/* Pagination styling */
+.ag-theme-alpine .ag-paging-panel {
+  font-family: 'Geist', sans-serif !important;
+  border-top: 1px solid #e6d5b8 !important;
+  background: #fefbf3 !important;
+  color: #3b2f1a !important;
+}
+
+.ag-theme-alpine .ag-paging-button {
+  font-family: 'Geist', sans-serif !important;
+}
+
+.ag-theme-alpine .ag-paging-page-summary-panel {
+  font-family: 'Geist', sans-serif !important;
+}
+
+/* ============================================ */
+/* DARK MODE ADJUSTMENTS - Thoroughly Fixed */
+/* ============================================ */
+
+:host-context(.dark) .ag-theme-alpine {
+  --ag-background-color: #fefbf3;
+  --ag-foreground-color: #3b2f1a;
+  --ag-border-color: #e6d5b8;
+  --ag-odd-row-background-color: #f9f6ed;
+  --ag-row-hover-color: rgba(212, 175, 55, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Dark Mode Header - Darker beige/gold to stand out */
+:host-context(.dark) .ag-theme-alpine .ag-header {
+  background: linear-gradient(135deg, #d4af37 0%, #c9a961 100%) !important;
+  border-bottom: 2px solid #b8960a !important;
+}
+
+:host-context(.dark) .ag-theme-alpine .ag-header-cell {
+  color: #2d2416 !important;
+  font-weight: 700 !important;
+}
+
+/* Dark Mode Rows - Light beige striping */
+:host-context(.dark) .ag-theme-alpine .ag-row {
+  background-color: #fefbf3 !important;
+  border-bottom: 1px solid #f5e6d3 !important;
+}
+
+:host-context(.dark) .ag-theme-alpine .ag-row-even {
+  background-color: #fffdf7 !important;
+}
+
+:host-context(.dark) .ag-theme-alpine .ag-row-odd {
+  background-color: #f9f6ed !important;
+}
+
+:host-context(.dark) .ag-theme-alpine .ag-cell {
+  color: #3b2f1a !important;
+}
+
+/* Dark Mode Row Hover - Gold tint */
+:host-context(.dark) .ag-theme-alpine .ag-row-hover {
+  background-color: rgba(212, 175, 55, 0.25) !important;
+}
+
+/* Dark Mode Grid Wrapper */
+:host-context(.dark) .ag-theme-alpine .ag-root-wrapper {
+  border-color: #e6d5b8 !important;
+}
+
+/* Dark Mode Apply Button - Bright Gold */
+:host-context(.dark) .btn-apply {
+  background: linear-gradient(135deg, #d4af37 0%, #f4e4bc 100%) !important;
+  color: #2d2416 !important;
+  border: 1px solid #c9a961 !important;
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4) !important;
+}
+
+:host-context(.dark) .btn-apply:hover {
+  background: linear-gradient(135deg, #c19b2d 0%, #e6d5b8 100%) !important;
+  color: #1a1612 !important;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.5) !important;
+}
+
+/* Dark Mode Applied Button - Muted Beige */
+:host-context(.dark) .applied-btn {
+  background: #e6d5b8 !important;
+  color: #8b7355 !important;
+  border: 1px solid #d1c4a8 !important;
+  opacity: 0.8;
+}
+
+/* Dark Mode Pagination */
+:host-context(.dark) .ag-theme-alpine .ag-paging-panel {
+  background: #f9f6ed !important;
+  border-top-color: #e6d5b8 !important;
+  color: #3b2f1a !important;
+}
+
+/* Dark Mode Pagination Buttons */
+:host-context(.dark) .ag-theme-alpine .ag-paging-button {
+  color: #3b2f1a !important;
+  background: rgba(212, 175, 55, 0.15) !important;
+  border-color: #d1c4a8 !important;
+}
+
+:host-context(.dark) .ag-theme-alpine .ag-paging-button:hover:not(.ag-disabled) {
+  background: rgba(212, 175, 55, 0.3) !important;
+  border-color: #d4af37 !important;
+}
+
+:host-context(.dark) .ag-theme-alpine .ag-paging-button.ag-disabled {
+  opacity: 0.4;
+}
+
+/* Dark Mode Page Numbers */
+:host-context(.dark) .ag-theme-alpine .ag-paging-page-summary-panel {
+  color: #3b2f1a !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .user-loan-container {
+    margin-top: 140px;
+    padding: 15px;
+  }
+  
+  .ag-theme-alpine {
+    font-size: 12px;
+  }
+  
+  .ag-theme-alpine .ag-header-cell {
+    font-size: 0.75rem !important;
+  }
+  
+  ::ng-deep .btn-apply,
+  ::ng-deep .applied-btn {
+    padding: 6px 12px !important;
+    font-size: 0.75rem !important;
+  }
+}
