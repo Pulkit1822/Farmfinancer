@@ -4,18 +4,15 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from '../models/user.model';
 import { Login } from '../models/login.model';
 import { tap } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
- 
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  
-  public baseUrl =environment.baseUrl;
- 
+  private apiUrl = 'https://8080-decdbdbfbbdcdbdafdeaaabcfdceffaacaaae.premiumproject.examly.io/api';
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser: Observable<User | null>;
- 
+
   constructor(private http: HttpClient) {
     const storedUser = localStorage.getItem('currentUser');
     this.currentUserSubject = new BehaviorSubject<User | null>(
@@ -23,63 +20,43 @@ export class AuthService {
     );
     this.currentUser = this.currentUserSubject.asObservable();
   }
- 
+
   public get currentUserValue(): User | null {
     return this.currentUserSubject.value;
   }
- 
-  register(newUser: User): Observable<any> {
-    return this.http.post(`${this.baseUrl}/register`, newUser);  // Removed duplicate /api
+
+  register(newUser: User): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}/register`, newUser);
   }
- 
-  login(loginData: Login): Observable<any> {
-    return this.http.post<{ token: string; User: User }>(`${this.baseUrl}/login`, loginData).pipe(
+
+  login(loginUser: Login): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/login`, loginUser).pipe(
       tap(response => {
-        const token = response.token;
         const user = response.User;
- 
-        if (token && user) {
-          localStorage.setItem('jwtToken', token);
+        if (user) {
           localStorage.setItem('currentUser', JSON.stringify(user));
           this.currentUserSubject.next(user);
         }
       })
     );
   }
- 
+
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('jwtToken');
+    return !!localStorage.getItem('currentUser');
   }
- 
-  getUserRole(): string | null {
-    const user = this.currentUserValue;
-    return user ? user.UserRole : null;
-  }
- 
-  getUserId(): number | null {
-    const user = this.currentUserValue;
-    return user ? user.UserId : null;
-  }
- 
+
   isAdmin(): boolean {
-    return this.getUserRole() === 'Admin';
+    const user = this.currentUserValue;
+    return user?.UserRole === 'Admin';
   }
- 
+
   isUser(): boolean {
-    return this.getUserRole() === 'User';
+    const user = this.currentUserValue;
+    return user?.UserRole === 'User';
   }
- 
+
   logout(): void {
-    localStorage.removeItem('jwtToken');
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
-  }
- 
-  getUserInfo(): { id: number, username: string } {
-    const user = this.currentUserValue;
-    return {
-      id: user ? user.UserId : 0,
-      username: user ? user.Username : ''
-    };
   }
 }

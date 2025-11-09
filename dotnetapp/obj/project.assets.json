@@ -15,22 +15,6 @@
           }
         }
       },
-      "log4net/3.1.0": {
-        "type": "package",
-        "dependencies": {
-          "System.Configuration.ConfigurationManager": "4.5.0"
-        },
-        "compile": {
-          "lib/netstandard2.0/log4net.dll": {
-            "related": ".pdb;.xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard2.0/log4net.dll": {
-            "related": ".pdb;.xml"
-          }
-        }
-      },
       "Microsoft.AspNetCore.Authentication.JwtBearer/6.0.0": {
         "type": "package",
         "dependencies": {
@@ -810,7 +794,7 @@
           "System.Security.Permissions": "4.7.0"
         },
         "compile": {
-          "ref/netstandard2.0/System.Configuration.ConfigurationManager.dll": {
+          "ref/netstandard2.0/_._": {
             "related": ".xml"
           }
         },
@@ -926,7 +910,7 @@
           "System.Security.Principal.Windows": "4.7.0"
         },
         "compile": {
-          "ref/netstandard2.0/System.Security.AccessControl.dll": {
+          "ref/netstandard2.0/_._": {
             "related": ".xml"
           }
         },
@@ -985,7 +969,7 @@
           "System.Windows.Extensions": "4.7.0"
         },
         "compile": {
-          "ref/netcoreapp3.0/System.Security.Permissions.dll": {
+          "ref/netcoreapp3.0/_._": {
             "related": ".xml"
           }
         },
@@ -998,7 +982,7 @@
       "System.Security.Principal.Windows/4.7.0": {
         "type": "package",
         "compile": {
-          "ref/netcoreapp3.0/System.Security.Principal.Windows.dll": {
+          "ref/netcoreapp3.0/_._": {
             "related": ".xml"
           }
         },
@@ -1046,7 +1030,7 @@
           "System.Drawing.Common": "4.7.0"
         },
         "compile": {
-          "ref/netcoreapp3.0/System.Windows.Extensions.dll": {
+          "ref/netcoreapp3.0/_._": {
             "related": ".xml"
           }
         },
@@ -1079,25 +1063,6 @@
         "lib/netstandard2.0/Humanizer.dll",
         "lib/netstandard2.0/Humanizer.xml",
         "logo.png"
-      ]
-    },
-    "log4net/3.1.0": {
-      "sha512": "GT7ZYyNcBNbMENUSSQsH8HkjrELe55UOwOkxMvUBfoSyq/K/c1SPi5aXCNHFqpyeCPlrq8nVx40z9pBVwnqkmA==",
-      "type": "package",
-      "path": "log4net/3.1.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "README.md",
-        "lib/net462/log4net.dll",
-        "lib/net462/log4net.pdb",
-        "lib/net462/log4net.xml",
-        "lib/netstandard2.0/log4net.dll",
-        "lib/netstandard2.0/log4net.pdb",
-        "lib/netstandard2.0/log4net.xml",
-        "log4net.3.1.0.nupkg.sha512",
-        "log4net.nuspec",
-        "package-icon.png"
       ]
     },
     "Microsoft.AspNetCore.Authentication.JwtBearer/6.0.0": {
@@ -2771,8 +2736,7 @@
       "NUnit >= 3.13.3",
       "NUnit3TestAdapter >= 3.0.0",
       "Newtonsoft.Json >= 13.0.3",
-      "Swashbuckle.AspNetCore >= 6.2.3",
-      "log4net >= 3.1.0"
+      "Swashbuckle.AspNetCore >= 6.2.3"
     ]
   },
   "packageFolders": {
@@ -2860,10 +2824,6 @@
           "Swashbuckle.AspNetCore": {
             "target": "Package",
             "version": "[6.2.3, )"
-          },
-          "log4net": {
-            "target": "Package",
-            "version": "[3.1.0, )"
           }
         },
         "imports": [

@@ -1,17 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { AppRoutingModule } from './app-routing.module';
-import { AgGridModule } from 'ag-grid-angular';
 
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
 import { AdmineditloanComponent } from './components/admineditloan/admineditloan.component';
+import { AdmininnavComponent } from './components/admininnav/admininnav.component';
 import { AdminviewfeedbackComponent } from './components/adminviewfeedback/adminviewfeedback.component';
-import { CreateLoanComponent } from './components/createloan/createloan.component';
+import { AuthguardComponent } from './components/authguard/authguard.component';
+import { CreateloanComponent } from './components/createloan/createloan.component';
 import { ErrorComponent } from './components/error/error.component';
 import { HomeComponent } from './components/home/home.component';
-import { LoanFormComponent } from './components/loanform/loanform.component';
+import { LoanformComponent } from './components/loanform/loanform.component';
 import { LoginComponent } from './components/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RegistrationComponent } from './components/registration/registration.component';
@@ -22,28 +22,18 @@ import { UsernavComponent } from './components/usernav/usernav.component';
 import { UserviewfeedbackComponent } from './components/userviewfeedback/userviewfeedback.component';
 import { UserviewloanComponent } from './components/userviewloan/userviewloan.component';
 import { ViewloanComponent } from './components/viewloan/viewloan.component';
-import { AdminnavComponent } from './components/adminnav/adminnav.component';
-
-import { AnimatedGridPatternComponent } from './components/animated-grid-pattern/animated-grid-pattern.component';
-import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
-import { FaqAccordionComponent } from './components/faq-accordion/faq-accordion.component';
-import { LetterGlitchComponent } from './components/letter-glitch/letter-glitch.component';
-
-import { MagicEffectsService } from './services/magic-effects.service';
-import { ConfettiService } from './services/confetti.service';
-import { SparklesTextComponent } from './components/sparkles-text/sparkles-text.component';
-import { RecaptchaModule } from 'ng-recaptcha';
-import { LoadingAnimationComponent } from './components/loading-animation/loading-animation.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AdmineditloanComponent,
+    AdmininnavComponent,
     AdminviewfeedbackComponent,
-    CreateLoanComponent,
+    AuthguardComponent,
+    CreateloanComponent,
     ErrorComponent,
     HomeComponent,
-    LoanFormComponent,
+    LoanformComponent,
     LoginComponent,
     NavbarComponent,
     RegistrationComponent,
@@ -53,25 +43,13 @@ import { LoadingAnimationComponent } from './components/loading-animation/loadin
     UsernavComponent,
     UserviewfeedbackComponent,
     UserviewloanComponent,
-    ViewloanComponent,
-    AdminnavComponent,
-    AnimatedGridPatternComponent,
-    ThemeToggleComponent,
-    FaqAccordionComponent,
-    LetterGlitchComponent,
-    SparklesTextComponent,
-    LoadingAnimationComponent,
+    ViewloanComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    AgGridModule,
-    RecaptchaModule,
   ],
-  providers: [MagicEffectsService, ConfettiService],
+  providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

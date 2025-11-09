@@ -1,93 +1,85 @@
+using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using dotnetapp.Data;
 using dotnetapp.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-
+ 
 namespace dotnetapp.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
-        private readonly PasswordHasher<User> _passwordHasher;
-
-        public AuthService(ApplicationDbContext db, IConfiguration configuration)
+ 
+        public AuthService(ApplicationDbContext context, IConfiguration configuration)
         {
-            _db = db;
+            _context = context;
             _configuration = configuration;
-            _passwordHasher = new PasswordHasher<User>();
         }
-
+ 
         public async Task<(int, string)> Registration(User model, string role)
         {
-            var existingUser = await _db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
-            if (existingUser != null)
+            var userExists = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+           
+            if (userExists != null)
             {
                 return (0, "User already exists");
             }
-
-            // Hash the password before saving!
-            model.Password = _passwordHasher.HashPassword(model, model.Password);
+ 
             model.UserRole = role;
-
-            _db.Users.Add(model);
-            await _db.SaveChangesAsync();
-
+            _context.Users.Add(model);
+            await _context.SaveChangesAsync();
+ 
             return (1, "User registered successfully");
         }
-
+ 
         public async Task<(int, string)> Login(LoginModel model)
         {
-            var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+           
             if (user == null)
             {
                 return (0, "Invalid email");
             }
-
-            // Verify hashed password
-            var result = _passwordHasher.VerifyHashedPassword(user, user.Password, model.Password);
-            if (result == PasswordVerificationResult.Failed)
+ 
+            if (user.Password != model.Password)
             {
                 return (0, "Invalid password");
             }
-
+ 
             var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Role, user.UserRole),
-            new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-            new Claim("userId", user.UserId.ToString()),
-            new Claim("username", user.Username ?? string.Empty)
-        };
-
+            {
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.UserRole),
+                new Claim("UserId", user.UserId.ToString())
+            };
+ 
             var token = GenerateToken(claims);
             return (1, token);
         }
-
+ 
         private string GenerateToken(IEnumerable<Claim> claims)
         {
-            var secretKey = _configuration["Jwt:Key"];
-            if (string.IsNullOrEmpty(secretKey))
-                throw new InvalidOperationException("JWT Key is not configured in appsettings.json");
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
+ 
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(24),
+                expires: DateTime.Now.AddHours(24),
                 signingCredentials: credentials
             );
-
+ 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
-
 }
-
+ 

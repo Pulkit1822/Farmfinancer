@@ -3,14 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { Feedback } from '../models/feedback.model';
-import { environment } from 'src/environments/environment';
  
  
 @Injectable({
   providedIn: 'root'
 })
 export class FeedbackService {
-  private apiUrl = environment.apiUrl;
+  private apiUrl = 'https://8080-decdbdbfbbdcdbdafdeaaabcfdceffaacaaae.premiumproject.examly.io'; // Adjust to your backend URL
  
   constructor(
     private http: HttpClient
@@ -18,10 +17,9 @@ export class FeedbackService {
   ) {}
   
  private getAuthHeaders(): HttpHeaders {
-  const token = localStorage.getItem('jwtToken');
+  const token = localStorage.getItem('token');
   return new HttpHeaders({
-    Authorization: `Bearer ${token}`,
-    'Content-Type': 'application/json'
+    Authorization: `Bearer ${token}`
   });
 }
 
@@ -39,10 +37,9 @@ export class FeedbackService {
   // GET /api/feedback/user/{userId} - Get all feedbacks by user
   getAllFeedbacksByUserId(userId: number): Observable<Feedback[]> {
     return this.http.get<Feedback[]>(
-      `${this.apiUrl}/api/Feedback/user/${userId}`,
+      `${this.apiUrl}/api/Feedback/${userId}`,
       {
-        headers: this.getAuthHeaders(),
-       
+        headers: this.getAuthHeaders()
       }
       
     );

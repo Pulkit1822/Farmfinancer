@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FaqAccordionComponent } from './faq-accordion.component';
+import { AdmininnavComponent } from './admininnav.component';
 
-describe('FaqAccordionComponent', () => {
-  let component: FaqAccordionComponent;
-  let fixture: ComponentFixture<FaqAccordionComponent>;
+describe('AdmininnavComponent', () => {
+  let component: AdmininnavComponent;
+  let fixture: ComponentFixture<AdmininnavComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FaqAccordionComponent ]
+      declarations: [ AdmininnavComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FaqAccordionComponent);
+    fixture = TestBed.createComponent(AdmininnavComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

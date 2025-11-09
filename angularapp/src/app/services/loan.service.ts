@@ -3,21 +3,18 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Loan } from '../models/loan.model';
 import { LoanApplication } from '../models/loanapplication.model';
-import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoanService {
- public apiUrl=environment.apiUrl;
+ public apiUrl='https://8080-decdbdbfbbdcdbdafdeaaabcfdceffaacaaae.premiumproject.examly.io'
   constructor(public http:HttpClient) { }
   
  private getAuthHeaders(): HttpHeaders {
-  const token = localStorage.getItem('jwtToken');
+  const token = localStorage.getItem('token');
   return new HttpHeaders({
-    Authorization: `Bearer ${token}`,
-    'Content-Type': 'application/json'
-
+    Authorization: `Bearer ${token}`
   });
 }
 
@@ -30,8 +27,7 @@ getAllLoans(): Observable<Loan[]> {
 deleteLoan(loanId:number):Observable<void>{
   return this.http.delete<void>(`${this.apiUrl}/api/Loan/${loanId}`,
   {
-    headers: this.getAuthHeaders(),
-    responseType: 'text' as 'json'
+    headers: this.getAuthHeaders()
   });
 }
 getLoanById(id:number):Observable<Loan>{
@@ -43,15 +39,13 @@ getLoanById(id:number):Observable<Loan>{
 addLoan(requestObject:Loan):Observable<Loan>{
   return this.http.post<Loan>(`${this.apiUrl}/api/Loan`,requestObject,
   {
-    headers: this.getAuthHeaders(),
-    responseType: 'text' as 'json'
+    headers: this.getAuthHeaders()
   });
 }
 updateLoan(id:number,requestObject:Loan):Observable<Loan>{
   return this.http.put<Loan>(`${this.apiUrl}/api/Loan/${id}`,requestObject,
   {
-    headers: this.getAuthHeaders(),
-    responseType: 'text' as 'json'
+    headers: this.getAuthHeaders()
   });
 }
 getAppliedLoans(userId:number): Observable<LoanApplication[]> {
@@ -63,16 +57,14 @@ getAppliedLoans(userId:number): Observable<LoanApplication[]> {
 deleteLoanApplication(loanId:number):Observable<void>{
   return this.http.delete<void>(`${this.apiUrl}/api/LoanApplication/${loanId}`,
   {
-    headers: this.getAuthHeaders(),
-    responseType: 'text' as 'json'
+    headers: this.getAuthHeaders()
   });
 }
 
 addLoanApplication(data:LoanApplication):Observable<LoanApplication>{
   return this.http.post<LoanApplication>(`${this.apiUrl}/api/LoanApplication`,data,
   {
-    headers: this.getAuthHeaders(),
-    responseType: 'text' as 'json'
+    headers: this.getAuthHeaders()
   });
 }
 getAllLoanApplications(): Observable<LoanApplication[]> {

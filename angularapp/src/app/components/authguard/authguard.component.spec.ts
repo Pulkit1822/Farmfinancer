@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ThemeToggleComponent } from './theme-toggle.component';
+import { AuthguardComponent } from './authguard.component';
 
-describe('ThemeToggleComponent', () => {
-  let component: ThemeToggleComponent;
-  let fixture: ComponentFixture<ThemeToggleComponent>;
+describe('AuthguardComponent', () => {
+  let component: AuthguardComponent;
+  let fixture: ComponentFixture<AuthguardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ThemeToggleComponent ]
+      declarations: [ AuthguardComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ThemeToggleComponent);
+    fixture = TestBed.createComponent(AuthguardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
