@@ -177,12 +177,12 @@ This is a **full-stack web application** for managing farm financing and loans, 
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    ANGULAR FRONTEND                      │
-│  ┌────────────┐    ┌────────────┐    ┌──────────────┐  │
-│  │ Components │───>│  Services  │───>│ HTTP Client  │  │
-│  │  (UI/UX)   │<───│  (Logic)   │<───│   (API)      │  │
-│  └────────────┘    └────────────┘    └──────────────┘  │
-│         │                                      │         │
+│                    ANGULAR FRONTEND                     │
+│  ┌────────────┐    ┌────────────┐    ┌──────────────┐   │
+│  │ Components │───>│  Services  │───>│ HTTP Client  │   │
+│  │  (UI/UX)   │<───│  (Logic)   │<───│   (API)      │   │
+│  └────────────┘    └────────────┘    └──────────────┘   │
+│         │                                      │        │
 │         │ (Two-way binding)          (JWT Token in      │
 │         │ (Reactive Forms)            Authorization     │
 │         │ (Router)                    Header)           │
