@@ -12,27 +12,23 @@ namespace dotnetapp.Services
     {
         private readonly ApplicationDbContext _context;
 
-        public LoanService(ApplicationDbContext context)
-        {
+        public LoanService(ApplicationDbContext context){
             _context = context;
         }
 
-        public async Task<IEnumerable<Loan>> GetAllLoans()
-        {
+        public async Task<IEnumerable<Loan>> GetAllLoans(){
             return await _context.Loans.ToListAsync();
         }
 
-        public async Task<Loan> GetLoanById(int loanId)
-        {
+        public async Task<Loan> GetLoanById(int loanId){
             return await _context.Loans.FindAsync(loanId);
         }
 
-        public async Task<bool> AddLoan(Loan loan)
-        {
-            if (await _context.Loans.AnyAsync(l => l.LoanType == loan.LoanType))
-            {
-                throw new LoanException("Loan with the same type already exists");
-            }
+        public async Task<bool> AddLoan(Loan loan){
+            // if (await _context.Loans.AnyAsync(l => l.LoanType == loan.LoanType))
+            // {
+            //     throw new LoanException("Loan with the same type already exists");
+            // }
 
             _context.Loans.Add(loan);
             await _context.SaveChangesAsync();
@@ -45,15 +41,20 @@ namespace dotnetapp.Services
             if (existingLoan == null)
                 return false;
 
-            if (await _context.Loans.AnyAsync(l => l.LoanType == loan.LoanType && l.LoanId != loanId))
-            {
-                throw new LoanException("Loan of same type already exists");
-            }
+            // if (await _context.Loans.AnyAsync(l => l.LoanType == loan.LoanType && l.LoanId != loanId))
+            // {
+            //     throw new LoanException("Loan of same type already exists");
+            // }
 
             existingLoan.LoanType = loan.LoanType;
             existingLoan.MaximumAmount = loan.MaximumAmount;
             existingLoan.InterestRate = loan.InterestRate;
-            // Add other fields as necessary
+            existingLoan.Description = loan.Description;
+            existingLoan.RepaymentTenure = loan.RepaymentTenure;
+            existingLoan.Eligibility = loan.Eligibility;
+            existingLoan.DocumentsRequired = loan.DocumentsRequired;
+
+            
 
             await _context.SaveChangesAsync();
             return true;

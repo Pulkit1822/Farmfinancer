@@ -1,1 +1,221 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import "~ag-grid-community/dist/styles/ag-grid.css";
+@import "~ag-grid-community/dist/styles/ag-theme-alpine.css";
+
+/* Import Geist Sans font */
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+/* Global theme styles with enhanced grid variables */
+:root {
+  --bg-primary: rgba(255, 255, 255, 0.95);
+  --bg-secondary: white;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --shadow: rgba(0, 0, 0, 0.1);
+
+  /* Enhanced grid variables */
+  --grid-primary: rgba(128, 128, 128, 0.03);
+  --grid-secondary: rgba(128, 128, 128, 0.015);
+  --grid-size-small: 24px;
+  --grid-size-medium: 32px;
+  --grid-size-large: 128px;
+
+  /* Gold theme variables */
+  --accent-primary: #d4af37;
+  --accent-secondary: #f4e4bc;
+  --accent-dark: #8b6914;
+  --accent-light: #ffd700;
+}
+
+.dark {
+  --bg-primary: rgba(15, 20, 25, 0.95); /* Darker blue-gray */
+  --bg-secondary: #0f1419; /* Very dark blue-gray */
+  --text-primary: #f5f1e8; /* Warm off-white */
+  --text-secondary: #c9b99a; /* Beige secondary text */
+  --border-color: rgba(212, 175, 55, 0.2); /* Gold borders */
+  --shadow: rgba(0, 0, 0, 0.6);
+
+  /* Dark mode grid variables with gold tint */
+  --grid-primary: rgba(212, 175, 55, 0.015);
+  --grid-secondary: rgba(212, 175, 55, 0.008);
+
+  /* Dark mode gold theme - more muted */
+  --accent-primary: #d4af37;
+  --accent-secondary: #c9b99a;
+  --accent-dark: #b8960a;
+  --accent-light: #e6c465;
+}
+
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  line-height: 1.6;
+  position: relative; /* Establish stacking context */
+}
+
+/* Ensure all main content is above the grid */
+main, .main-content, section, .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Modal and overlay z-index levels */
+.modal {
+  z-index: 20000;
+}
+
+.overlay {
+  z-index: 19999;
+}
+
+/* Navigation z-index levels */
+.navbar, .admin-navbar {
+  z-index: 10000;
+}
+
+/* Dropdown menus */
+.dropdown-menu {
+  z-index: 10001;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Typography improvements with Geist font everywhere */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Geist', sans-serif;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+p, span, div, a, label, input, select, textarea, button {
+  font-family: 'Geist', sans-serif;
+}
+
+p {
+  font-weight: 400;
+}
+
+/* Add accent color utilities */
+.text-accent {
+  color: var(--accent-primary);
+}
+
+.text-accent-dark {
+  color: var(--accent-dark);
+}
+
+.text-accent-light {
+  color: var(--accent-light);
+}
+
+.bg-accent {
+  background-color: var(--accent-primary);
+}
+
+.bg-accent-gradient {
+  background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent-primary) 100%);
+}
+
+.border-accent {
+  border-color: var(--accent-primary);
+}
+
+/* Button variations */
+.btn-accent {
+  background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent-primary) 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-family: 'Geist', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(139, 105, 20, 0.3);
+}
+
+.btn-accent:hover {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-light) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(139, 105, 20, 0.4);
+}
+
+/* Dark mode button adjustments */
+:host-context(.dark) .btn-accent {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-light) 100%);
+  color: #1a1a1a;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+:host-context(.dark) .btn-accent:hover {
+  background: linear-gradient(135deg, var(--accent-light) 0%, #f0d86e 100%);
+  box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
+}
+
+/* Enhanced form styling */
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent-primary) !important;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2) !important;
+}
+
+/* Enhanced form styling for dark mode */
+:host-context(.dark) input:focus, 
+:host-context(.dark) select:focus, 
+:host-context(.dark) textarea:focus {
+  border-color: var(--accent-primary) !important;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2) !important;
+}
+
+/* Link styling */
+a {
+  color: var(--accent-primary);
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent-dark);
+}
+
+/* Dark mode link styling */
+:host-context(.dark) a {
+  color: var(--accent-primary);
+}
+
+:host-context(.dark) a:hover {
+  color: var(--accent-light);
+}
+
+/* Enhanced text readability classes */
+.text-over-grid {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(0.3px);
+  -webkit-backdrop-filter: blur(0.3px);
+}
+
+:host-context(.dark) .text-over-grid {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.content-over-grid {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+:host-context(.dark) .content-over-grid {
+  background: rgba(15, 20, 25, 0.98);
+  border-color: rgba(212, 175, 55, 0.1);
+}

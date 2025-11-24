@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using dotnetapp.Exceptions;
 
 using dotnetapp.Models;
@@ -22,6 +23,7 @@ namespace dotnetapp.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<LoanApplication>>> GetAllLoanApplications()
         {
             try
@@ -37,6 +39,7 @@ namespace dotnetapp.Controllers
         }
 
         [HttpGet("user/{userId}")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<LoanApplication>>> GetLoanApplicationsByUserId(int userId)
         {
             try
@@ -55,6 +58,7 @@ namespace dotnetapp.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> AddLoanApplication([FromBody] LoanApplication loanApplication)
         {
             try
@@ -77,6 +81,7 @@ namespace dotnetapp.Controllers
         }
 
         [HttpPut("{loanApplicationId}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> UpdateLoanApplication(int loanApplicationId, [FromBody] LoanApplication loanApplication)
         {
             try
@@ -94,6 +99,7 @@ namespace dotnetapp.Controllers
         }
 
         [HttpDelete("{loanApplicationId}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteLoanApplication(int loanApplicationId)
         {
             try

@@ -1,1 +1,96 @@
-<p>loanform works!</p>
+<app-adminnav></app-adminnav>
+<div class="form-container">
+  <h2>Loan Application Form</h2>
+  <form [formGroup]="loanForm" (ngSubmit)="onSubmit()">
+    
+    <div class="form-group">
+      <label for="farmLocation">Farm Location *</label>
+      <input 
+      type="text" 
+      id="farmLocation" 
+      formControlName="farmLocation" 
+      placeholder="Enter farm location" 
+      maxlength="100"
+      (ngModelChange)="validateFarmLocationLive()"
+      (keydown)="preventTabIfEmpty($event, f.farmLocation.value, 'Farm Location')"
+      />
+      <div *ngIf="farmLocationError" class="error-message">{{ farmLocationError }}</div>
+      <div *ngIf="f.farmLocation.touched && f.farmLocation.errors" class="error-message">
+        <div *ngIf="f.farmLocation.errors.required">Farm Location is required</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="farmerAddress">Farmer's Address *</label>
+      <input 
+      type="text" 
+      id="farmerAddress" 
+      formControlName="farmerAddress" 
+      placeholder="Enter farmer's address" 
+      maxlength="100"
+      (ngModelChange)="validateFarmerAddressLive()"
+      (keydown)="preventTabIfEmpty($event, f.farmerAddress.value, 'Farmer Address')"
+      />
+      <div *ngIf="farmerAddressError" class="error-message">{{ farmerAddressError }}</div>
+      <div *ngIf="f.farmerAddress.touched && f.farmerAddress.errors" class="error-message">
+        <div *ngIf="f.farmerAddress.errors.required">Farmer's Address is required</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="farmSize">Farm Size (in acres) *</label>
+      <input 
+      id="farmSize" 
+      type="number" 
+      formControlName="farmSize" 
+      placeholder="Enter farm size" 
+      min="1"
+      (ngModelChange)="validateFarmSizeLive()"
+      (keydown)="preventNegativeNumbers($event); preventTabIfEmpty($event, f.farmSize.value, 'Farm Size')"
+      />
+      <div *ngIf="farmSizeError" class="error-message">{{ farmSizeError }}</div>
+      <div *ngIf="f.farmSize.touched && f.farmSize.errors" class="error-message">
+        <div *ngIf="f.farmSize.errors.required">Farm Size is required.</div>
+        <div *ngIf="f.farmSize.errors.min">Farm Size must be at least 1 acre</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="loanPurpose">Loan Purpose *</label>
+      <input 
+      id="loanPurpose" 
+      type="text" 
+      formControlName="loanPurpose" 
+      placeholder="Enter loan purpose" 
+      maxlength="100"
+      (ngModelChange)="validateLoanPurposeLive()"
+      (keydown)="preventTabIfEmpty($event, f.loanPurpose.value, 'Loan Purpose')"
+      />
+      <div *ngIf="loanPurposeError" class="error-message">{{ loanPurposeError }}</div>
+      <div *ngIf="f.loanPurpose.touched && f.loanPurpose.errors" class="error-message">
+        <div *ngIf="f.loanPurpose.errors.required">Loan Purpose is required</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="proof">Proof Document (Upload File) *</label>
+      <input 
+      type="file" 
+      id="proof" 
+      (change)="onFileChange($event)" 
+      accept="image/*,.pdf" 
+      />
+      <div *ngIf="f.proof.touched && f.proof.errors?.required" class="error-message">
+        Proof document is required
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button type="submit" class="btn-submit" [disabled]="submitting">
+        <span *ngIf="!submitting">Submit</span>
+        <span *ngIf="submitting">Submitting...</span>
+      </button>
+      <button type="button" class="btn-back" (click)="goBack()">Back to Loans</button>
+    </div>
+  </form>
+</div>

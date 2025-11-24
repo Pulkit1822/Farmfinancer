@@ -1,0 +1,40 @@
+:host {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .glitch-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    overflow: hidden;
+  }
+  
+  .glitch-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .outer-vignette {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,1) 100%);
+  }
+  
+  .center-vignette {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: radial-gradient(circle, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 60%);
+  }
+  

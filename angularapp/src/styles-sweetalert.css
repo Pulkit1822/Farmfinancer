@@ -1,0 +1,299 @@
+/* ============================================ */
+/* SWEETALERT2 GLOBAL CUSTOM STYLING */
+/* Professional, Modern, and Appealing Design */
+/* ============================================ */
+
+/* Custom Progress Bars */
+::ng-deep .green-progress-bar {
+    background-color: #28a745 !important;
+    height: 4px !important;
+  }
+  
+  ::ng-deep .blue-progress-bar {
+    background-color: #4A90E2 !important;
+    height: 4px !important;
+  }
+  
+  ::ng-deep .gold-progress-bar {
+    background-color: #d4af37 !important;
+    height: 4px !important;
+  }
+  
+  /* Enhanced Modal Container */
+  ::ng-deep .swal2-popup {
+    border-radius: 16px !important;
+    padding: 2rem !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2) !important;
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  }
+  
+  /* Title Styling */
+  ::ng-deep .swal2-title {
+    font-size: 1.75rem !important;
+    font-weight: 700 !important;
+    color: #2d3748 !important;
+    margin-bottom: 0.5rem !important;
+    font-family: 'Geist', sans-serif !important;
+  }
+  
+  /* Content Text Styling */
+  ::ng-deep .swal2-html-container {
+    font-size: 1rem !important;
+    color: #4a5568 !important;
+    line-height: 1.6 !important;
+    font-family: 'Geist', sans-serif !important;
+    margin: 1rem 0 !important;
+  }
+  
+  /* Icon Styling */
+  ::ng-deep .swal2-icon {
+    border-width: 3px !important;
+    margin: 1.5rem auto 1rem !important;
+  }
+  
+  ::ng-deep .swal2-icon.swal2-success {
+    border-color: #28a745 !important;
+  }
+  
+  ::ng-deep .swal2-icon.swal2-success [class^='swal2-success-line'] {
+    background-color: #28a745 !important;
+  }
+  
+  ::ng-deep .swal2-icon.swal2-success .swal2-success-ring {
+    border-color: rgba(40, 167, 69, 0.3) !important;
+  }
+  
+  ::ng-deep .swal2-icon.swal2-error {
+    border-color: #e74c3c !important;
+  }
+  
+  ::ng-deep .swal2-icon.swal2-error [class^='swal2-x-mark-line'] {
+    background-color: #e74c3c !important;
+  }
+  
+  ::ng-deep .swal2-icon.swal2-warning {
+    border-color: #ffc107 !important;
+    color: #ffc107 !important;
+  }
+  
+  ::ng-deep .swal2-icon.swal2-info {
+    border-color: #4A90E2 !important;
+    color: #4A90E2 !important;
+  }
+  
+  /* Confirm Button - Modern Gradient */
+  ::ng-deep .swal2-confirm {
+    background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 0.75rem 2rem !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    font-family: 'Geist', sans-serif !important;
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+  
+  ::ng-deep .swal2-confirm:hover {
+    background: linear-gradient(135deg, #357ABD 0%, #2868A8 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 16px rgba(74, 144, 226, 0.5) !important;
+  }
+  
+  ::ng-deep .swal2-confirm:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3) !important;
+  }
+  
+  /* Cancel Button - Modern Style */
+  ::ng-deep .swal2-cancel {
+    background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 0.75rem 2rem !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    font-family: 'Geist', sans-serif !important;
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+  
+  ::ng-deep .swal2-cancel:hover {
+    background: linear-gradient(135deg, #5a6268 0%, #4e555b 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 16px rgba(108, 117, 125, 0.4) !important;
+  }
+  
+  ::ng-deep .swal2-cancel:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 8px rgba(108, 117, 125, 0.2) !important;
+  }
+  
+  /* Delete/Destructive Confirm Button */
+  ::ng-deep .swal2-confirm.swal2-styled.delete-confirm {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%) !important;
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4) !important;
+  }
+  
+  ::ng-deep .swal2-confirm.swal2-styled.delete-confirm:hover {
+    background: linear-gradient(135deg, #c0392b 0%, #a93226 100%) !important;
+    box-shadow: 0 6px 16px rgba(231, 76, 60, 0.5) !important;
+  }
+  
+  /* Success Confirm Button */
+  ::ng-deep .swal2-confirm.swal2-styled.success-confirm {
+    background: linear-gradient(135deg, #28a745 0%, #218838 100%) !important;
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4) !important;
+  }
+  
+  ::ng-deep .swal2-confirm.swal2-styled.success-confirm:hover {
+    background: linear-gradient(135deg, #218838 0%, #1e7e34 100%) !important;
+    box-shadow: 0 6px 16px rgba(40, 167, 69, 0.5) !important;
+  }
+  
+  /* Gold Theme Confirm Button */
+  ::ng-deep .swal2-confirm.swal2-styled.gold-confirm {
+    background: linear-gradient(135deg, #d4af37 0%, #b8960a 100%) !important;
+    color: #2d2416 !important;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4) !important;
+  }
+  
+  ::ng-deep .swal2-confirm.swal2-styled.gold-confirm:hover {
+    background: linear-gradient(135deg, #b8960a 0%, #9c7f08 100%) !important;
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.5) !important;
+  }
+  
+  /* Actions Container - Better Spacing */
+  ::ng-deep .swal2-actions {
+    margin-top: 1.5rem !important;
+    gap: 1rem !important;
+  }
+  
+  /* Loading Spinner Enhancement */
+  ::ng-deep .swal2-loader {
+    border-color: #d4af37 transparent #d4af37 transparent !important;
+    border-width: 3px !important;
+  }
+  
+  /* Timer Progress Bar Container */
+  ::ng-deep .swal2-timer-progress-bar-container {
+    height: 4px !important;
+    background: rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  /* Close Button */
+  ::ng-deep .swal2-close {
+    font-size: 2rem !important;
+    color: #a0aec0 !important;
+    transition: color 0.2s ease !important;
+  }
+  
+  ::ng-deep .swal2-close:hover {
+    color: #4a5568 !important;
+  }
+  
+  /* Backdrop - Enhanced Blur Effect */
+  ::ng-deep .swal2-container {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important; /* Safari support */
+  }
+  
+  ::ng-deep .swal2-container.swal2-backdrop-show {
+    background: rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+  
+  /* Input Fields (if used) */
+  ::ng-deep .swal2-input,
+  ::ng-deep .swal2-textarea {
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    font-family: 'Geist', sans-serif !important;
+    font-size: 1rem !important;
+    padding: 0.75rem 1rem !important;
+    transition: border-color 0.3s ease !important;
+  }
+  
+  ::ng-deep .swal2-input:focus,
+  ::ng-deep .swal2-textarea:focus {
+    border-color: #4A90E2 !important;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1) !important;
+    outline: none !important;
+  }
+  
+  /* Validation Message */
+  ::ng-deep .swal2-validation-message {
+    background: #fff5f5 !important;
+    border: 1px solid #fc8181 !important;
+    color: #c53030 !important;
+    font-family: 'Geist', sans-serif !important;
+    border-radius: 6px !important;
+    padding: 0.5rem 1rem !important;
+  }
+  
+  /* ============================================ */
+  /* DARK MODE SUPPORT */
+  /* ============================================ */
+  
+  :host-context(.dark) ::ng-deep .swal2-popup {
+    background: #1a202c !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+  }
+  
+  :host-context(.dark) ::ng-deep .swal2-title {
+    color: #f7fafc !important;
+  }
+  
+  :host-context(.dark) ::ng-deep .swal2-html-container {
+    color: #e2e8f0 !important;
+  }
+  
+  :host-context(.dark) ::ng-deep .swal2-close {
+    color: #718096 !important;
+  }
+  
+  :host-context(.dark) ::ng-deep .swal2-close:hover {
+    color: #cbd5e0 !important;
+  }
+  
+  :host-context(.dark) ::ng-deep .swal2-input,
+  :host-context(.dark) ::ng-deep .swal2-textarea {
+    background: #2d3748 !important;
+    border-color: #4a5568 !important;
+    color: #f7fafc !important;
+  }
+  
+  :host-context(.dark) ::ng-deep .swal2-input:focus,
+  :host-context(.dark) ::ng-deep .swal2-textarea:focus {
+    border-color: #4A90E2 !important;
+  }
+  
+  /* ============================================ */
+  /* RESPONSIVE ADJUSTMENTS */
+  /* ============================================ */
+  
+  @media (max-width: 768px) {
+    ::ng-deep .swal2-popup {
+      padding: 1.5rem !important;
+    }
+  
+    ::ng-deep .swal2-title {
+      font-size: 1.5rem !important;
+    }
+  
+    ::ng-deep .swal2-html-container {
+      font-size: 0.95rem !important;
+    }
+  
+    ::ng-deep .swal2-confirm,
+    ::ng-deep .swal2-cancel {
+      padding: 0.65rem 1.5rem !important;
+      font-size: 0.9rem !important;
+    }
+  }
+  

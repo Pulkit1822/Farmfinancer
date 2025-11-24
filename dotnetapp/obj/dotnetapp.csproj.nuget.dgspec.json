@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/pulkitmathur/Documents/77c066ec-7de8-4d30-8d72-b1ed53a36069-c8759ef6-f9a5-4a2c-a72a-15a27506136e copy/dotnetapp/dotnetapp.csproj": {}
+    "/Users/pulkitmathur/Documents/Farmfinancer/dotnetapp/dotnetapp.csproj": {}
   },
   "projects": {
-    "/Users/pulkitmathur/Documents/77c066ec-7de8-4d30-8d72-b1ed53a36069-c8759ef6-f9a5-4a2c-a72a-15a27506136e copy/dotnetapp/dotnetapp.csproj": {
+    "/Users/pulkitmathur/Documents/Farmfinancer/dotnetapp/dotnetapp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/pulkitmathur/Documents/77c066ec-7de8-4d30-8d72-b1ed53a36069-c8759ef6-f9a5-4a2c-a72a-15a27506136e copy/dotnetapp/dotnetapp.csproj",
+        "projectUniqueName": "/Users/pulkitmathur/Documents/Farmfinancer/dotnetapp/dotnetapp.csproj",
         "projectName": "dotnetapp",
-        "projectPath": "/Users/pulkitmathur/Documents/77c066ec-7de8-4d30-8d72-b1ed53a36069-c8759ef6-f9a5-4a2c-a72a-15a27506136e copy/dotnetapp/dotnetapp.csproj",
+        "projectPath": "/Users/pulkitmathur/Documents/Farmfinancer/dotnetapp/dotnetapp.csproj",
         "packagesPath": "/Users/pulkitmathur/.nuget/packages/",
-        "outputPath": "/Users/pulkitmathur/Documents/77c066ec-7de8-4d30-8d72-b1ed53a36069-c8759ef6-f9a5-4a2c-a72a-15a27506136e copy/dotnetapp/obj/",
+        "outputPath": "/Users/pulkitmathur/Documents/Farmfinancer/dotnetapp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/pulkitmathur/.nuget/NuGet/NuGet.Config"
@@ -86,6 +86,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
+            },
+            "log4net": {
+              "target": "Package",
+              "version": "[3.1.0, )"
             }
           },
           "imports": [

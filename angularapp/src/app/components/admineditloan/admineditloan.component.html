@@ -1,1 +1,156 @@
-<p>admineditloan works!</p>
+<app-adminnav></app-adminnav>
+
+<!-- Flying Coins Logo Animation - Multiple coins with random properties -->
+<div class="coin-container" *ngIf="showCoin">
+  <img src="assets/logo.png" alt="Logo" class="flying-coin coin-1" />
+  <img src="assets/logo.png" alt="Logo" class="flying-coin coin-2" />
+  <img src="assets/logo.png" alt="Logo" class="flying-coin coin-3" />
+  <img src="assets/logo.png" alt="Logo" class="flying-coin coin-4" />
+  <img src="assets/logo.png" alt="Logo" class="flying-coin coin-5" />
+</div>
+
+<div class="form-container">
+  <h2>Edit Loan</h2>
+  
+  <form #editForm="ngForm" (ngSubmit)="onUpdate(editForm)">
+    
+    <!-- Loan Type (Read-only) -->
+    <div class="form-group">
+      <input 
+        type="text" 
+        name="LoanType" 
+        id="loanType"
+        [(ngModel)]="loan.LoanType" 
+        required 
+        readonly
+        class="form-input"
+        placeholder=" "
+      />
+      <label for="loanType" class="form-label">Loan Type (Read-only)</label>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <input 
+        type="text" 
+        name="Description" 
+        id="description"
+        [(ngModel)]="loan.Description" 
+        (ngModelChange)="validateDescriptionLive()"
+        (keydown.tab)="preventTabIfEmpty($event, loan.Description, 'Description')"
+        required 
+        maxlength="20"
+        class="form-input"
+        placeholder=" "
+      />
+      <label for="description" class="form-label">Description (3-20 characters)</label>
+      <div *ngIf="descriptionError" class="error">{{ descriptionError }}</div>
+      <div class="error" *ngIf="!descriptionError && editForm.submitted && !loan.Description">*Description is required</div>
+    </div>
+
+    <!-- Interest Rate and Maximum Amount (Two columns) -->
+    <div class="form-row">
+      <div class="form-group">
+        <input 
+          type="number" 
+          name="InterestRate" 
+          id="interestRate"
+          [(ngModel)]="loan.InterestRate" 
+          (ngModelChange)="validateInterestRateLive()"
+          (keydown)="preventNegativeNumbers($event)"
+          (keydown.tab)="preventTabIfEmpty($event, loan.InterestRate, 'Interest Rate')"
+          required 
+          step="0.01"
+          min="0.01"
+          max="100"
+          class="form-input"
+          placeholder=" "
+        />
+        <label for="interestRate" class="form-label">Interest Rate (% > 0)</label>
+        <div *ngIf="interestRateError" class="error">{{ interestRateError }}</div>
+        <div class="error" *ngIf="!interestRateError && editForm.submitted && !loan.InterestRate">*Interest Rate is required</div>
+      </div>
+      
+      <div class="form-group">
+        <input 
+          type="number" 
+          name="MaximumAmount" 
+          id="maxAmount"
+          [(ngModel)]="loan.MaximumAmount" 
+          (ngModelChange)="validateMaxAmountLive()"
+          (keydown)="preventExceedMaxAmount($event)"
+          (keydown.tab)="preventTabIfEmpty($event, loan.MaximumAmount, 'Maximum Amount')"
+          required 
+          min="1"
+          max="1000000"
+          class="form-input"
+          placeholder=" "
+        />
+        <label for="maxAmount" class="form-label">Maximum Amount (₹ ≤ 10,00,000)</label>
+        <div *ngIf="maxAmountError" class="error">{{ maxAmountError }}</div>
+        <div class="error" *ngIf="!maxAmountError && editForm.submitted && !loan.MaximumAmount">*Maximum Amount is required</div>
+      </div>
+    </div>
+
+    <!-- Repayment Tenure -->
+    <div class="form-group">
+      <input 
+        type="number" 
+        name="RepaymentTenure" 
+        id="repaymentTenure"
+        [(ngModel)]="loan.RepaymentTenure" 
+        (ngModelChange)="validateRepaymentTenureLive()"
+        (keydown)="preventNegativeNumbers($event)"
+        (keydown.tab)="preventTabIfEmpty($event, loan.RepaymentTenure, 'Repayment Tenure')"
+        required 
+        min="1"
+        max="360"
+        class="form-input"
+        placeholder=" "
+      />
+      <label for="repaymentTenure" class="form-label">Repayment Tenure (months ≥ 1)</label>
+      <div *ngIf="repaymentTenureError" class="error">{{ repaymentTenureError }}</div>
+      <div class="error" *ngIf="!repaymentTenureError && editForm.submitted && !loan.RepaymentTenure">*Repayment Tenure is required</div>
+    </div>
+
+    <!-- Eligibility Criteria -->
+    <div class="form-group">
+      <textarea 
+        name="Eligibility" 
+        id="eligibilityCriteria"
+        [(ngModel)]="loan.Eligibility" 
+        required 
+        class="form-textarea"
+        placeholder=" "
+        rows="3"
+      ></textarea>
+      <label for="eligibilityCriteria" class="form-label textarea-label">Eligibility Criteria</label>
+      <div class="error" *ngIf="editForm.submitted && !loan.Eligibility">*Eligibility Criteria is required</div>
+    </div>
+
+    <!-- Documents Required -->
+    <div class="form-group">
+      <textarea 
+        name="DocumentsRequired" 
+        id="documentsRequired"
+        [(ngModel)]="loan.DocumentsRequired" 
+        required 
+        class="form-textarea"
+        placeholder=" "
+        rows="3"
+      ></textarea>
+      <label for="documentsRequired" class="form-label textarea-label">Documents Required</label>
+      <div class="error" *ngIf="editForm.submitted && !loan.DocumentsRequired">*Documents Required is required</div>
+    </div>
+
+    <!-- Success Message -->
+    <div *ngIf="successMessage" class="success success-box">{{ successMessage }}</div>
+    
+    <!-- Action Buttons -->
+    <div class="button-group">
+      <button type="submit" class="submit-btn">Update Loan</button>
+      <button type="button" class="back-btn" (click)="goBack()">Cancel</button>
+    </div>
+  </form>
+</div>
+

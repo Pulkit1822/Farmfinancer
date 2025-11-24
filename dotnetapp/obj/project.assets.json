@@ -15,6 +15,22 @@
           }
         }
       },
+      "log4net/3.1.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Configuration.ConfigurationManager": "4.5.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/log4net.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/log4net.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
       "Microsoft.AspNetCore.Authentication.JwtBearer/6.0.0": {
         "type": "package",
         "dependencies": {
@@ -794,7 +810,7 @@
           "System.Security.Permissions": "4.7.0"
         },
         "compile": {
-          "ref/netstandard2.0/_._": {
+          "ref/netstandard2.0/System.Configuration.ConfigurationManager.dll": {
             "related": ".xml"
           }
         },
@@ -910,7 +926,7 @@
           "System.Security.Principal.Windows": "4.7.0"
         },
         "compile": {
-          "ref/netstandard2.0/_._": {
+          "ref/netstandard2.0/System.Security.AccessControl.dll": {
             "related": ".xml"
           }
         },
@@ -969,7 +985,7 @@
           "System.Windows.Extensions": "4.7.0"
         },
         "compile": {
-          "ref/netcoreapp3.0/_._": {
+          "ref/netcoreapp3.0/System.Security.Permissions.dll": {
             "related": ".xml"
           }
         },
@@ -982,7 +998,7 @@
       "System.Security.Principal.Windows/4.7.0": {
         "type": "package",
         "compile": {
-          "ref/netcoreapp3.0/_._": {
+          "ref/netcoreapp3.0/System.Security.Principal.Windows.dll": {
             "related": ".xml"
           }
         },
@@ -1030,7 +1046,7 @@
           "System.Drawing.Common": "4.7.0"
         },
         "compile": {
-          "ref/netcoreapp3.0/_._": {
+          "ref/netcoreapp3.0/System.Windows.Extensions.dll": {
             "related": ".xml"
           }
         },
@@ -1063,6 +1079,25 @@
         "lib/netstandard2.0/Humanizer.dll",
         "lib/netstandard2.0/Humanizer.xml",
         "logo.png"
+      ]
+    },
+    "log4net/3.1.0": {
+      "sha512": "GT7ZYyNcBNbMENUSSQsH8HkjrELe55UOwOkxMvUBfoSyq/K/c1SPi5aXCNHFqpyeCPlrq8nVx40z9pBVwnqkmA==",
+      "type": "package",
+      "path": "log4net/3.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net462/log4net.dll",
+        "lib/net462/log4net.pdb",
+        "lib/net462/log4net.xml",
+        "lib/netstandard2.0/log4net.dll",
+        "lib/netstandard2.0/log4net.pdb",
+        "lib/netstandard2.0/log4net.xml",
+        "log4net.3.1.0.nupkg.sha512",
+        "log4net.nuspec",
+        "package-icon.png"
       ]
     },
     "Microsoft.AspNetCore.Authentication.JwtBearer/6.0.0": {
@@ -2736,7 +2771,8 @@
       "NUnit >= 3.13.3",
       "NUnit3TestAdapter >= 3.0.0",
       "Newtonsoft.Json >= 13.0.3",
-      "Swashbuckle.AspNetCore >= 6.2.3"
+      "Swashbuckle.AspNetCore >= 6.2.3",
+      "log4net >= 3.1.0"
     ]
   },
   "packageFolders": {
@@ -2745,11 +2781,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/pulkitmathur/Documents/77c066ec-7de8-4d30-8d72-b1ed53a36069-c8759ef6-f9a5-4a2c-a72a-15a27506136e copy/dotnetapp/dotnetapp.csproj",
+      "projectUniqueName": "/Users/pulkitmathur/Documents/Farmfinancer/dotnetapp/dotnetapp.csproj",
       "projectName": "dotnetapp",
-      "projectPath": "/Users/pulkitmathur/Documents/77c066ec-7de8-4d30-8d72-b1ed53a36069-c8759ef6-f9a5-4a2c-a72a-15a27506136e copy/dotnetapp/dotnetapp.csproj",
+      "projectPath": "/Users/pulkitmathur/Documents/Farmfinancer/dotnetapp/dotnetapp.csproj",
       "packagesPath": "/Users/pulkitmathur/.nuget/packages/",
-      "outputPath": "/Users/pulkitmathur/Documents/77c066ec-7de8-4d30-8d72-b1ed53a36069-c8759ef6-f9a5-4a2c-a72a-15a27506136e copy/dotnetapp/obj/",
+      "outputPath": "/Users/pulkitmathur/Documents/Farmfinancer/dotnetapp/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/pulkitmathur/.nuget/NuGet/NuGet.Config"
@@ -2824,6 +2860,10 @@
           "Swashbuckle.AspNetCore": {
             "target": "Package",
             "version": "[6.2.3, )"
+          },
+          "log4net": {
+            "target": "Package",
+            "version": "[3.1.0, )"
           }
         },
         "imports": [

@@ -1,1 +1,95 @@
-<p>userappliedloan works!</p>
+
+    <!-- <h2>My Applied Loans</h2>
+    <input
+      type="text"
+      placeholder="Search by Loan Purpose"
+      [(ngModel)]="searchText"
+      (input)="filterLoans()"
+    />
+    <div *ngIf="filteredApplications.length === 0" class="no-records">
+      Oops! No records Found
+    </div>
+    <table *ngIf="filteredApplications.length > 0">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Farm Location</th>
+          <th>Farmer Address</th>
+          <th>Farm Size (acres)</th>
+          <th>Farm Purpose</th>
+          <th>Submission Date</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let app of filteredApplications; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ app.FarmLocation }}</td>
+          <td>{{ app.FarmerAddress }}</td>
+          <td>{{ app.FarmSizeInAcres }}</td>
+          <td>{{ app.FarmPurpose }}</td>
+          <td>{{ app.SubmissionDate | date }}</td>
+          <td>{{ app.LoanStatus }}</td>
+          <td>
+            <button (click)="confirmDelete(app.LoanApplicationId!)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table> -->
+
+    <!-- <div class="modal" *ngIf="showModal">
+      <div class="modal-content">
+        <p>Are you sure you want to delete this loan application?</p>
+        <button (click)="deleteLoan()">Yes, Delete</button>
+        <button (click)="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div> -->
+
+  <app-usernav></app-usernav>
+
+  <!-- Animated Loading -->
+  <div *ngIf="isLoading" class="loading-wrapper">
+    <app-loading-animation></app-loading-animation>
+  </div>
+  
+  <!-- Main Content -->
+  <div *ngIf="!isLoading" class="applied-loan-container">
+    <h2>My Applied Loans</h2>
+    
+    <div class="search-container">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search by Farm Purpose"
+        [(ngModel)]="searchText"
+        (input)="filterLoans()"
+      />
+    </div>
+  
+    <div *ngIf="filteredApplications.length === 0" class="no-records">
+      No records found
+    </div>
+  
+    <ag-grid-angular
+      *ngIf="filteredApplications.length > 0"
+      style="width: 100%; height: 500px;"
+      class="ag-theme-alpine"
+      [rowData]="filteredApplications"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      pagination="true"
+      [paginationPageSize]="10"
+      (gridReady)="onGridReady($event)"
+      (cellClicked)="onCellClicked($event)">
+    </ag-grid-angular>
+  
+    <div class="modal" *ngIf="showModal">
+      <div class="modal-content">
+        <p>Are you sure you want to delete this loan application?</p>
+        <button (click)="deleteLoan()">Yes, Delete</button>
+        <button (click)="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>

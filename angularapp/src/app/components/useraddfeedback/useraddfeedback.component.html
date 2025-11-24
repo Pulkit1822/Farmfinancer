@@ -1,1 +1,52 @@
-<p>useraddfeedback works!</p>
+<app-adminnav></app-adminnav>
+<div class="form-container">
+  <h2>Add Your Feedback</h2>
+  <p class="subtitle">We'd love to hear about your experience.</p>
+  
+  <form (ngSubmit)="onSubmit()" #feedbackForm="ngForm" novalidate>
+    <div class="form-group">
+      <label for="content">Your Feedback</label>
+      <textarea
+        id="content"
+        name="content"
+        [(ngModel)]="feedbackText"
+        rows="4"
+        placeholder="Share your thoughts and suggestions here... (10-100 characters)"
+        required
+        minlength="10"
+        maxlength="100"
+        #feedbackInput="ngModel"
+      ></textarea>
+      
+      <!-- Character Counter -->
+      <div class="character-counter">
+        <span [class.warning]="feedbackText.trim().length < 10 || feedbackText.trim().length > 100">
+          {{ feedbackText.trim().length }} / 100 characters
+        </span>
+        <span *ngIf="feedbackText.trim().length < 10 && feedbackText.trim().length > 0" class="counter-hint">
+          (Minimum 10 required)
+        </span>
+      </div>
+
+      <!-- Validation Messages -->
+      <div class="validation-messages">
+        <div *ngIf="feedbackInput.touched && feedbackInput.errors?.required" class="error-message">
+          Feedback is required.
+        </div>
+        <div *ngIf="feedbackInput.touched && feedbackInput.errors?.minlength" class="error-message">
+          Feedback must be at least 10 characters long.
+        </div>
+        <div *ngIf="feedbackInput.value?.length > 100" class="error-message">
+          Feedback must not exceed 100 characters.
+        </div>
+        <div *ngIf="showValidationError && !feedbackInput.errors?.required && !feedbackInput.errors?.minlength" class="error-message">
+          Feedback must contain only letters, numbers, and spaces.
+        </div>
+      </div>
+    </div>
+    
+    <button type="submit" [disabled]="feedbackForm.invalid || feedbackText.trim().length < 10 || feedbackText.trim().length > 100">
+      Submit Feedback
+    </button>
+  </form>
+</div>
