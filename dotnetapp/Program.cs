@@ -22,9 +22,7 @@ builder.Services.AddControllers()
 
 // Configure Database Context (Supports both SQL Server and In-Memory Fallback)
 var connectionString = builder.Configuration.GetConnectionString("con");
-var useInMemory = builder.Configuration.GetValue<bool>("UseInMemoryDatabase", false)
-    || string.IsNullOrWhiteSpace(connectionString)
-    || connectionString.Contains("localhost", StringComparison.OrdinalIgnoreCase);
+var useInMemory = builder.Configuration.GetValue<bool>("UseInMemoryDatabase", true);
 
 if (useInMemory)
 {
