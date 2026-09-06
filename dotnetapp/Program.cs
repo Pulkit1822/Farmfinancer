@@ -169,6 +169,9 @@ app.UseCors("AllowAngular");
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Redirect root URL to Swagger documentation UI
+app.MapGet("/", () => Results.Redirect("/swagger"));
+
 // Health check endpoints for uptime monitoring & cloud readiness
 app.MapGet("/health", () => Results.Ok(new 
 { 
