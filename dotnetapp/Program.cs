@@ -22,7 +22,7 @@ builder.Services.AddControllers()
 
 // Configure Database Context (Supports both SQL Server and In-Memory Fallback)
 var connectionString = builder.Configuration.GetConnectionString("con");
-var useInMemory = builder.Configuration.GetValue<bool>("UseInMemoryDatabase", true);
+var useInMemory = true;
 
 if (useInMemory)
 {
@@ -182,6 +182,7 @@ app.MapGet("/health", () => Results.Ok(new
     status = "Healthy", 
     service = "FarmFinancer API",
     database = useInMemory ? "InMemory" : "SqlServer",
+    version = "inmemory-v1",
     timestamp = DateTime.UtcNow 
 }));
 
@@ -190,6 +191,7 @@ app.MapGet("/api/health", () => Results.Ok(new
     status = "Healthy", 
     service = "FarmFinancer API",
     database = useInMemory ? "InMemory" : "SqlServer",
+    version = "inmemory-v1",
     timestamp = DateTime.UtcNow 
 }));
 
