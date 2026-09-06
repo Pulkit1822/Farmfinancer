@@ -23,62 +23,114 @@ Traditional agricultural lending in rural areas is hindered by bureaucratic fric
 
 Farmfinancer follows a decoupled, client-server single-page application (SPA) architecture with strict role-based execution paths.
 
-### High-Level System Diagram
+### High-Level System Architecture Diagram
 
+```mermaid
+flowchart TB
+    subgraph ClientBrowser["Client Browser (Angular 10 SPA on Vercel)"]
+        direction TB
+        subgraph PublicUI["Public & Shared UI Surfaces"]
+            Landing["Landing Page (/home)"]
+            Login["Login (/login)"]
+            Register["Registration (/registration)"]
+            ThemeToggle["Theme Switcher & FAQ"]
+        end
+
+        subgraph GuardedUI["Role-Guarded Surfaces (AuthGuard)"]
+            subgraph AdminUI["Admin Surface (/admin)"]
+                AdminCatalog["Loan Catalog Mgmt"]
+                AdminAppraisal["Appraisal AG-Grid"]
+                AdminFeedback["Feedback Review & Profiles"]
+            end
+            subgraph UserUI["Farmer / User Surface (/user)"]
+                UserCatalog["Loan Discovery Catalog"]
+                UserApply["Apply Form & File Upload"]
+                UserApplied["Applied Loans Status Grid"]
+                UserFeedback["Feedback Submission"]
+            end
+        end
+
+        Interceptors["HTTP Interceptors<br/>- AuthInterceptor (JWT Bearer)<br/>- ErrorInterceptor (401/403/500)"]
+        PublicUI --> Interceptors
+        GuardedUI --> Interceptors
+    end
+
+    Interceptors -- "HTTPS / REST (Base64 Auth & JWT Bearer)" --> Backend
+
+    subgraph Backend["ASP.NET Core 6.0 Web API (Docker Container on Render)"]
+        direction TB
+        Middleware["Middleware Pipeline<br/>CORS | Routing | JWT Authentication | Role Authorization"]
+        
+        subgraph Controllers["API Controllers"]
+            AuthCtrl["AuthenticationController<br/>/api/login, /api/register"]
+            LoanCtrl["LoanController<br/>/api/Loan"]
+            AppCtrl["LoanApplicationController<br/>/api/LoanApplication"]
+            FeedCtrl["FeedbackController<br/>/api/Feedback"]
+        end
+
+        subgraph Services["Business Logic Services"]
+            AuthSvc["AuthService (PBKDF2 Hasher & JWT)"]
+            LoanSvc["LoanService (Referential Integrity Guard)"]
+            AppSvc["LoanApplicationService (Duplicate Application Guard)"]
+            FeedSvc["FeedbackService & LogService (IST Formatter)"]
+        end
+
+        DbContext["Entity Framework Core (ApplicationDbContext)"]
+
+        Middleware --> Controllers
+        AuthCtrl --> AuthSvc
+        LoanCtrl --> LoanSvc
+        AppCtrl --> AppSvc
+        FeedCtrl --> FeedSvc
+
+        AuthSvc --> DbContext
+        LoanSvc --> DbContext
+        AppSvc --> DbContext
+        FeedSvc --> DbContext
+    end
+
+    subgraph DataTier["Data Persistence Tier"]
+        direction LR
+        InMemoryDB[("EF Core In-Memory Database<br/>(Resilient Zero-Config / Active)")]
+        SQLServer[("Microsoft SQL Server 2022<br/>(Relational Persistence)")]
+    end
+
+    DbContext --> InMemoryDB
+    DbContext -.-> SQLServer
 ```
-+----------------------------------------------------------------------------------------------------+
-|                                         CLIENT BROWSER                                             |
-|                                                                                                    |
-|   +---------------------------------------+      +---------------------------------------------+   |
-|   |         PUBLIC & SHARED UI            |      |            ROLE-GUARDED SURFACES            |   |
-|   | - Landing Page (/home)                |      | +---------------------+ +-----------------+ |   |
-|   | - Login (/login)                      |      | | [ADMIN SURFACE]     | | [USER SURFACE]  | |   |
-|   | - Registration (/registration)        |      | | - Loan Catalog Mgmt | | - Loan Catalog  | |   |
-|   | - Error 404 (**), Theme Toggle        |      | | - Appraisal AG-Grid | | - Apply Form    | |   |
-|   +---------------------------------------+      | | - Feedback Review   | | - Applied Loans | |   |
-|                      |                           | +---------------------+ +-----------------+ |   |
-|                      +--------------------+------+                        |                    |
-|                                           | AuthGuard                     |                    |
-|                                           v                               v                    |
-|                          +-------------------------------------------------+                   |
-|                          |    Angular 10 SPA Frontend (Vercel CDN)         |                   |
-|                          |    - AuthInterceptor (JWT Bearer Injection)     |                   |
-|                          |    - ErrorInterceptor (401/403/500 Handling)    |                   |
-|                          +-------------------------------------------------+                   |
-+---------------------------------------------------|------------------------------------------------+
-                                                    | HTTPS (REST / Base64 Encoded Auth)
-                                                    v
-+----------------------------------------------------------------------------------------------------+
-|                             ASP.NET CORE 6.0 WEB API (Render / Docker)                             |
-|                                                                                                    |
-|  +----------------------------------------------------------------------------------------------+  |
-|  | Middleware Pipeline: CORS -> Routing -> Authentication (JWT) -> Authorization (Role)         |  |
-|  +----------------------------------------------------------------------------------------------+  |
-|          |                                   |                                     |               |
-|          v                                   v                                     v               |
-|  +-------------------+              +-----------------------+            +--------------------+    |
-|  | Authentication    |              | Loan & Application    |            | Feedback           |    |
-|  | Controller        |              | Controllers           |            | Controller         |    |
-|  | - /api/login      |              | - /api/Loan           |            | - /api/Feedback    |    |
-|  | - /api/register   |              | - /api/LoanApplication|            |                    |    |
-|  +-------------------+              +-----------------------+            +--------------------+    |
-|          |                                   |                                     |               |
-|          +-----------------------------------+-------------------------------------+               |
-|                                              |                                                     |
-|                                              v                                                     |
-|                        +-------------------------------------------+                               |
-|                        | Entity Framework Core (ApplicationDbContext) |                            |
-|                        +-------------------------------------------+                               |
-|                                              |                                                     |
-+----------------------------------------------|-----------------------------------------------------+
-                                               |
-                     +-------------------------+-------------------------+
-                     | (Production Connection)                           | (Fallback / Container)
-                     v                                                   v
-      +-----------------------------+                     +-----------------------------+
-      |  Microsoft SQL Server 2022  |                     | EF Core In-Memory Database  |
-      |  (Cloud MSSQL / Railway)    |                     | (Resilient Zero-Config DB)  |
-      +-----------------------------+                     +-----------------------------+
+
+### Authentication & Role-Based Authorization Flow
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Farmer / Admin
+    participant Client as Angular 10 SPA
+    participant Guard as AuthGuard
+    participant API as ASP.NET Core API
+    participant DB as ApplicationDbContext
+
+    User->>Client: Enters credentials on /login
+    Client->>Client: JSON stringify + Base64 encode {data: base64}
+    Client->>API: POST /api/login
+    API->>DB: Query User by Email
+    DB-->>API: Return User entity
+    API->>API: Verify Password (PBKDF2 Hasher)
+    alt Invalid Credentials
+        API-->>Client: HTTP 400 Bad Request
+        Client->>User: SweetAlert: "Login Failed"
+    else Valid Credentials
+        API->>API: Generate JWT with Claims (Role, UserId, Email)
+        API-->>Client: HTTP 200 {token: "JWT...", User: {...}}
+        Client->>Client: Store token & role in localStorage
+        Client->>Guard: Evaluate userRole
+        alt Role == "Admin"
+            Guard-->>Client: Route to /admin (Admin Command Center)
+        else Role == "User"
+            Guard-->>Client: Route to /user (Farmer Dashboard)
+        end
+        Client->>User: Display role-specific command center
+    end
 ```
 
 ### Flow Divergence & Sharing
@@ -265,6 +317,40 @@ The User side is accessed via `/user` and serves farmers seeking agricultural cr
   - Farmers can delete their own application while it is **Pending** or **Rejected**.
   - If a loan is **Approved (`LoanStatus === 1`)**, deletion is strictly disabled: the button renders with class `disabled`, and clicking it triggers a warning: *"Approved loans cannot be deleted."*
 
+#### Agricultural Loan Application & Appraisal Lifecycle
+
+```mermaid
+stateDiagram-v2
+    [*] --> SchemeDiscovery: Farmer discovers loan scheme (/user/viewloan)
+    SchemeDiscovery --> ApplicationForm: Click "Apply" for Scheme
+    ApplicationForm --> Submitted: Submit Farm Details & Upload Proof (POST /api/LoanApplication)
+    
+    state Submitted {
+        [*] --> PendingReview: LoanStatus = 0 (Pending)
+        PendingReview --> UnderInspection: Admin opens Appraisal Board (/admin/requestedloan)
+    }
+
+    state UnderInspection {
+        [*] --> InspectDetails: Verify Location, Acreage, Purpose & Proof
+    }
+
+    UnderInspection --> Approved: Admin clicks "Approve" (LoanStatus = 1)
+    UnderInspection --> Rejected: Admin clicks "Reject" (LoanStatus = 2)
+
+    state Approved {
+        [*] --> FundsDisbursed: Loan approved / Sanctioned
+        FundsDisbursed --> Locked: Application locked (User cannot delete)
+    }
+
+    state Rejected {
+        [*] --> StatusUpdated: Rejection status displayed
+        StatusUpdated --> CanDelete: Farmer can delete or re-apply
+    }
+
+    Locked --> [*]
+    CanDelete --> [*]
+```
+
 ### 5.5. Farmer Feedback Submission `[User]`
 - **Description**: Form enabling farmers to submit reviews, service requests, or grievances.
 - **Implementation**:
@@ -335,10 +421,61 @@ The User side is accessed via `/user` and serves farmers seeking agricultural cr
   {
     "status": "Healthy",
     "service": "FarmFinancer API",
-    "database": "SqlServer",
-    "timestamp": "2026-09-06T13:45:00.000Z"
+    "database": "InMemory",
+    "version": "inmemory-v1",
+    "timestamp": "2026-09-06T15:00:15.000Z"
   }
   ```
+
+### 6.7. Data Model & Entity-Relationship Diagram (ERD) `[Shared]`
+
+The relational schema is mapped via Entity Framework Core `ApplicationDbContext`:
+
+```mermaid
+erDiagram
+    USER {
+        int UserId PK
+        string Email "Unique, Required"
+        string Password "PBKDF2 Salted Hash"
+        string Username "Alphanumeric display name"
+        string MobileNumber "10-digit Indian mobile"
+        string UserRole "Admin | User"
+    }
+
+    LOAN {
+        int LoanId PK
+        string LoanType "Unique Scheme Name"
+        string Description "Scheme scope description"
+        decimal InterestRate "Annual interest percentage"
+        decimal MaximumAmount "Max loan ceiling in INR"
+        int RepaymentTenure "Tenure duration in months"
+        string Eligibility "Eligibility criteria"
+        string DocumentsRequired "Required land & KYC proof"
+    }
+
+    LOAN_APPLICATION {
+        int LoanApplicationId PK
+        int UserId FK "Applicant Farmer ID"
+        int LoanId FK "Selected Loan Scheme ID"
+        string FarmLocation "Location of agricultural plot"
+        string FarmerAddress "Farmer residential address"
+        decimal FarmSize "Cultivable land in Acres"
+        string FarmPurpose "Crop / Equipment / Irrigation"
+        string File "Base64 encoded proof file"
+        int LoanStatus "0: Pending | 1: Approved | 2: Rejected"
+    }
+
+    FEEDBACK {
+        int FeedbackId PK
+        int UserId FK "Author Farmer ID"
+        string FeedbackText "Feedback message or grievance"
+        DateTime Date "Submission timestamp"
+    }
+
+    USER ||--o{ LOAN_APPLICATION : "submits"
+    LOAN ||--o{ LOAN_APPLICATION : "categorizes"
+    USER ||--o{ FEEDBACK : "authors"
+```
 
 ---
 
@@ -760,6 +897,34 @@ The workflow in [`.github/workflows/ci-cd.yml`](file:///.github/workflows/ci-cd.
 3. **`frontend-ci`**: Restores npm cache, builds the Angular 10 production bundle with legacy OpenSSL provider, and uploads the compiled bundle artifact.
 4. **`deploy-frontend-vercel`**: Deploys the verified Angular bundle to Vercel.
 5. **`deploy-backend`**: Pings the Render deployment webhook to pull and rebuild the new container image.
+
+```mermaid
+flowchart LR
+    Push([git push origin main]) --> Gitleaks[Stage 1: Gitleaks Scan]
+    
+    Gitleaks --> Parallel{Parallel CI}
+    
+    subgraph BackendCI[Stage 2: Backend CI]
+        B1[Setup .NET 6 SDK] --> B2[Restore NuGet Cache]
+        B2 --> B3[Build Release DLL]
+        B3 --> B4[Run 15 NUnit Tests]
+    end
+
+    subgraph FrontendCI[Stage 3: Frontend CI]
+        F1[Setup Node 18] --> F2[Install npm Deps]
+        F2 --> F3[Build Angular 10 Bundle]
+        F3 --> F4[Upload dist Artifact]
+    end
+
+    Parallel --> BackendCI
+    Parallel --> FrontendCI
+
+    BackendCI --> DeployRender[Stage 4: Deploy API to Render<br/>Docker Webhook]
+    FrontendCI --> DeployVercel[Stage 5: Deploy SPA to Vercel<br/>Edge Global CDN]
+
+    DeployRender --> LiveAPI[(Live Backend API<br/>farmfinancer-api.onrender.com)]
+    DeployVercel --> LiveSPA[(Live Frontend SPA<br/>farmfinancer-app.vercel.app)]
+```
 
 ---
 
