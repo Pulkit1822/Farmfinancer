@@ -1,7 +1,12 @@
 {
   "version": 2,
-  "buildCommand": "cd angularapp && npm install && npm run build",
+  "buildCommand": "cd angularapp && npm install && NODE_OPTIONS=--openssl-legacy-provider npm run build",
   "outputDirectory": "angularapp/dist/angularapp",
+  "build": {
+    "env": {
+      "NODE_OPTIONS": "--openssl-legacy-provider"
+    }
+  },
   "rewrites": [
     {
       "source": "/(.*)",
