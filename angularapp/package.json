@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 8081 --disable-host-check --host=0.0.0.0",
-    "build": "NODE_OPTIONS=--openssl-legacy-provider ng build",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
