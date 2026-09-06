@@ -14,14 +14,15 @@ The project includes an enterprise-grade GitHub Actions workflow in [`.github/wo
 
 ```mermaid
 flowchart LR
-    A[Push / PR to main] --> B[Backend CI: .NET Build & Tests]
+    A[Push / PR to main] --> G[Gitleaks: Secret Scanner]
+    A --> B[Backend CI: .NET Build & Tests]
     A --> C[Frontend CI: Angular Build & Artifacts]
-    B --> D[Deploy Backend: Render/Railway]
-    C --> E[Deploy Frontend: Vercel]
-    B --> E
+    B & G --> D[Deploy Backend: Render/Railway]
+    C & B & G --> E[Deploy Frontend: Vercel]
 ```
 
 ### Workflow Features:
+- **Gitleaks Secret Scanner (`gitleaks`)**: Scans all commits and code for leaked API keys, tokens, and credentials using `.gitleaks.toml`.
 - **Backend CI (`backend-ci`)**: Restores NuGet dependencies with caching, compiles ASP.NET Core 6 in Release mode, and runs unit tests.
 - **Frontend CI (`frontend-ci`)**: Installs dependencies with `--legacy-peer-deps`, compiles production Angular bundle with OpenSSL compatibility, and archives production build artifacts.
 - **Deploy Frontend (`deploy-frontend-vercel`)**: Automatically deploys the Angular app to Vercel on merges to `main`.
