@@ -158,8 +158,9 @@
     <div *ngIf="successMessage" class="success success-box">{{ successMessage }}</div>
 
     <re-captcha
-    siteKey="6LdwGvgrAAAAAGykYEkW3V11NOZf3pY5rA_stDyJ"
-    (resolved)="onCaptchaResolved($event)">
+    [siteKey]="siteKey"
+    (resolved)="onCaptchaResolved($event)"
+    (error)="onCaptchaError($event)">
     </re-captcha>
     
     <!-- Submit Button -->

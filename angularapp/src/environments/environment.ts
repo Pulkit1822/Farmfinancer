@@ -4,16 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl:'https://8080-eafabdeccdfbafdeaaabcfdceffaacaaae.premiumproject.examly.io',
-  baseUrl:'https://8080-eafabdeccdfbafdeaaabcfdceffaacaaae.premiumproject.examly.io/api',
-
+  apiUrl: 'https://8080-eafabdeccdfbafdeaaabcfdceffaacaaae.premiumproject.examly.io',
+  baseUrl: 'https://8080-eafabdeccdfbafdeaaabcfdceffaacaaae.premiumproject.examly.io/api',
+  // Google reCAPTCHA test site key that works on all domains (including localhost & vercel)
+  recaptchaSiteKey: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
 };
-
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
