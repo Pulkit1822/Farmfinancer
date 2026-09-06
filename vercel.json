@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "buildCommand": "cd angularapp && npm install && npm run build",
+  "outputDirectory": "angularapp/dist/angularapp",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

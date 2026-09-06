@@ -1,12 +1,30 @@
-angularapp/.browserslistrc
-angularapp/.editorconfig
-angularapp/angular.json
-angularapp/karma.conf.js
-angularapp/tsconfig.app.json
-angularapp/tsconfig.json
-angularapp/tsconfig.spec.json
-angularapp/tslint.json
-angularapp/node_modules
-angularapp/package-lock.json
-angularapp/src/environments/environment.ts
+# OS files
+.DS_Store
+Thumbs.db
 
+# IDE & Editor files
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Angular & Node
+angularapp/node_modules/
+angularapp/dist/
+angularapp/.angular/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# .NET & Build outputs
+**/bin/
+**/obj/
+*.nupkg
+
+# Dynamic runtime uploads & logs
+dotnetapp/uploadedFiles/*
+!dotnetapp/uploadedFiles/.gitkeep
+dotnetapp/logs/
+*.log

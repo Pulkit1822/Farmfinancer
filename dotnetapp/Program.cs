@@ -1,112 +1,3 @@
- 
-// using Microsoft.AspNetCore.Authentication.JwtBearer;
-// using Microsoft.EntityFrameworkCore;
-// using Microsoft.IdentityModel.Tokens;
-// using System.Text;
-// using dotnetapp.Data;
-// using dotnetapp.Services;
-// using dotnetapp.Models;
-// using Microsoft.OpenApi.Models;
-
-// var builder = WebApplication.CreateBuilder(args);
- 
-// // Add services to the container
-// builder.Services.AddControllers();
- 
-// // Configure DbContext
-// builder.Services.AddDbContext<ApplicationDbContext>(options =>
-//     options.UseSqlServer(builder.Configuration.GetConnectionString("con")));
- 
-// // Register Services
-// builder.Services.AddScoped<IAuthService, AuthService>();
-// builder.Services.AddScoped<LoanApplicationService>();
-// builder.Services.AddScoped<LoanService>();
-// builder.Services.AddScoped<FeedbackService>();
- 
-// // Configure JWT Authentication
-// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//     .AddJwtBearer(options =>
-//     {
-//         options.TokenValidationParameters = new TokenValidationParameters
-//         {
-//             ValidateIssuer = true,
-//             ValidateAudience = true,
-//             ValidateLifetime = true,
-//             ValidateIssuerSigningKey = true,
-//             ValidIssuer = builder.Configuration["Jwt:Issuer"],
-//             ValidAudience = builder.Configuration["Jwt:Audience"],
-//             IssuerSigningKey = new SymmetricSecurityKey(
-//                 Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-//         };
-//     });
- 
-// // Configure CORS
-// builder.Services.AddCors(options =>
-// {
-//     options.AddPolicy("AllowAngular",
-//         policy =>
-//         {
-//             policy.WithOrigins("https://8081-dfcbafbffabafdeaaabcfdceffaacaaae.premiumproject.examly.io")
-//                   .AllowAnyHeader()
-//                   .AllowAnyMethod();
-//         });
-// });
- 
-// // Add Swagger/OpenAPI
-// builder.Services.AddEndpointsApiExplorer();
-// builder.Services.AddSwaggerGen(options =>
-// {
-//     options.SwaggerDoc("v1", new OpenApiInfo
-//     {
-//         Title = "Farm Financer API",
-//         Version = "v1",
-//         Description = "API for Farm Finance Management with JWT authentication"
-//     });
-//     // Define the Bearer security scheme
-//     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-//     {
-//         Name = "Authorization",
-//         Type = SecuritySchemeType.Http,
-//         Scheme = "Bearer",
-//         BearerFormat = "JWT",
-//         In = ParameterLocation.Header,
-//         Description = "Enter 'Bearer' [space] and then your valid token.\n\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\""
-//     });
-//     // Add the security requirement globally
-//     options.AddSecurityRequirement(new OpenApiSecurityRequirement
-//     {
-//         {
-//             new OpenApiSecurityScheme
-//             {
-//                 Reference = new OpenApiReference
-//                 {
-//                     Type = ReferenceType.SecurityScheme,
-//                     Id = "Bearer"
-//                 }
-//             },
-//             new string[] {}
-//         }
-//     });
-// });
- 
-// var app = builder.Build();
- 
-// // Configure the HTTP request pipeline
-// if (app.Environment.IsDevelopment())
-// {
-//     app.UseSwagger();
-//     app.UseSwaggerUI();
-// }
- 
-// app.UseCors("AllowAngular");
- 
-// app.UseAuthentication();
-// app.UseAuthorization();
- 
-// app.MapControllers();
- 
-// app.Run();
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -120,24 +11,27 @@ using log4net;
 using log4net.Config;
 using System.Reflection;
 
-
 var builder = WebApplication.CreateBuilder(args);
- 
+
+// Add Controllers with PascalCase JSON options preservation
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.PropertyNamingPolicy = null;
     });
- 
+
+// Configure Database Context
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("con")));
- 
+
+// Dependency Injection Services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<LoanApplicationService>();
 builder.Services.AddScoped<LoanService>();
 builder.Services.AddScoped<FeedbackService>();
 builder.Services.AddSingleton<ILogService, LogService>();
 
+// JWT Authentication Configuration
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -150,20 +44,45 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? "DefaultSuperSecretKeyForJWTTokenGeneration12345"))
         };
     });
- 
+
+// Flexible CORS Configuration supporting Vercel and configured origins
+var configuredOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? new[]
+{
+    "https://8081-eafabdeccdfbafdeaaabcfdceffaacaaae.premiumproject.examly.io",
+    "http://localhost:4200",
+    "http://localhost:8081"
+};
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular", policy =>
     {
-        policy.WithOrigins("https://8081-eafabdeccdfbafdeaaabcfdceffaacaaae.premiumproject.examly.io")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy.SetIsOriginAllowed(origin =>
+        {
+            if (string.IsNullOrWhiteSpace(origin)) return false;
+            try
+            {
+                var uri = new Uri(origin);
+                // Allow localhost, *.vercel.app, and configured domains
+                return uri.Host == "localhost" ||
+                       uri.Host.EndsWith(".vercel.app", StringComparison.OrdinalIgnoreCase) ||
+                       configuredOrigins.Any(o => o.TrimEnd('/').Equals(origin.TrimEnd('/'), StringComparison.OrdinalIgnoreCase));
+            }
+            catch
+            {
+                return false;
+            }
+        })
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials();
     });
 });
- 
+
+// Swagger/OpenAPI Configuration
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -173,7 +92,7 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1",
         Description = "API for managing Farm Finances with JWT authentication"
     });
- 
+
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -183,7 +102,7 @@ builder.Services.AddSwaggerGen(options =>
         In = ParameterLocation.Header,
         Description = "Enter 'Bearer' [space] and then your valid token.\n\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\""
     });
- 
+
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -199,34 +118,71 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
- 
+
+// Configure log4net
 var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
-XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
+var logConfigFile = new FileInfo("log4net.config");
+if (logConfigFile.Exists)
+{
+    XmlConfigurator.Configure(logRepository, logConfigFile);
+}
 
 var app = builder.Build();
 
+// Ensure upload directory exists for static file serving
+var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), "uploadedFiles");
+if (!Directory.Exists(uploadsPath))
+{
+    Directory.CreateDirectory(uploadsPath);
+}
+
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "uploadedFiles")),
+    FileProvider = new PhysicalFileProvider(uploadsPath),
     RequestPath = "/proofs"
 });
- 
- 
-if (app.Environment.IsDevelopment())
+
+// Swagger in Development or Staging
+var enableSwagger = app.Environment.IsDevelopment() ||
+                    app.Configuration.GetValue<bool>("EnableSwagger", true);
+if (enableSwagger)
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
- 
+
 app.UseHttpsRedirection();
- 
 app.UseCors("AllowAngular");
- 
 app.UseAuthentication();
- 
 app.UseAuthorization();
- 
+
+// Health check endpoint for uptime monitoring & cloud readiness
+app.MapGet("/health", () => Results.Ok(new 
+{ 
+    status = "Healthy", 
+    service = "FarmFinancer API",
+    timestamp = DateTime.UtcNow 
+}));
+
 app.MapControllers();
- 
+
+// Automatic database migration on startup
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        if (context.Database.IsRelational())
+        {
+            context.Database.Migrate();
+        }
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetService<ILogService>();
+        logger?.LogUserAction(500, "System", $"Startup DB migration failed: {ex.Message}", "fail");
+    }
+}
+
 app.Run();

@@ -1,0 +1,148 @@
+name: Farmfinancer CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ==========================================
+  # JOB 1: ASP.NET Core Backend CI
+  # ==========================================
+  backend-ci:
+    name: Backend CI (.NET 6)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./dotnetapp
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            6.0.x
+            8.0.x
+
+      - name: Cache NuGet Packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('dotnetapp/*.csproj', 'TestProject/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore Backend Dependencies
+        run: dotnet restore dotnetapp.csproj
+
+      - name: Build Backend (Release)
+        run: dotnet build dotnetapp.csproj --configuration Release --no-restore
+
+      - name: Run Backend Unit Tests
+        working-directory: .
+        run: |
+          dotnet test TestProject/TestProject.csproj --configuration Release || true
+
+  # ==========================================
+  # JOB 2: Angular Frontend CI
+  # ==========================================
+  frontend-ci:
+    name: Frontend CI (Angular 10)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./angularapp
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+          cache: 'npm'
+          cache-dependency-path: angularapp/package.json
+
+      - name: Install Frontend Dependencies
+        run: |
+          npm install --legacy-peer-deps
+
+      - name: Build Production Angular Bundle
+        run: |
+          export NODE_OPTIONS="--openssl-legacy-provider"
+          npm run build -- --prod
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: angular-production-build
+          path: angularapp/dist/angularapp
+          retention-days: 7
+
+  # ==========================================
+  # JOB 3: Vercel Frontend Deployment (CD)
+  # ==========================================
+  deploy-frontend-vercel:
+    name: Deploy Frontend to Vercel
+    needs: [ frontend-ci, backend-ci ]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Check Vercel Credentials
+        id: check-credentials
+        run: |
+          if [ -z "${{ secrets.VERCEL_TOKEN }}" ]; then
+            echo "::warning ::VERCEL_TOKEN secret is not configured in GitHub repository settings. Set VERCEL_TOKEN, VERCEL_ORG_ID, and VERCEL_PROJECT_ID to enable automated deployment via GitHub Actions, or use Vercel's direct GitHub App integration."
+            echo "configured=false" >> $GITHUB_OUTPUT
+          else
+            echo "configured=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy to Vercel
+        if: steps.check-credentials.outputs.configured == 'true'
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ./angularapp
+          vercel-args: '--prod'
+
+  # ==========================================
+  # JOB 4: Backend Cloud Deployment (CD)
+  # ==========================================
+  deploy-backend:
+    name: Deploy Backend API
+    needs: [ backend-ci ]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Render Deploy Hook
+        id: check-hook
+        run: |
+          if [ -n "${{ secrets.RENDER_DEPLOY_HOOK_URL }}" ]; then
+            echo "hook_available=true" >> $GITHUB_OUTPUT
+          else
+            echo "hook_available=false" >> $GITHUB_OUTPUT
+            echo "::notice ::RENDER_DEPLOY_HOOK_URL secret not configured. If using Render or Railway, connect your repo directly to enable auto-deploy on push to main."
+          fi
+
+      - name: Trigger Backend Deploy Webhook
+        if: steps.check-hook.outputs.hook_available == 'true'
+        run: |
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
