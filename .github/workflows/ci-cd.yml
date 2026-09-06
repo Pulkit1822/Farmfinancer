@@ -13,7 +13,25 @@ concurrency:
 
 jobs:
   # ==========================================
-  # JOB 1: ASP.NET Core Backend CI
+  # JOB 1: Gitleaks Security Scan
+  # ==========================================
+  gitleaks:
+    name: Gitleaks Secret Scanner
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks Security Scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_CONFIG: .gitleaks.toml
+
+  # ==========================================
+  # JOB 2: ASP.NET Core Backend CI
   # ==========================================
   backend-ci:
     name: Backend CI (.NET 6)
@@ -53,7 +71,7 @@ jobs:
           dotnet test TestProject/TestProject.csproj --configuration Release || true
 
   # ==========================================
-  # JOB 2: Angular Frontend CI
+  # JOB 3: Angular Frontend CI
   # ==========================================
   frontend-ci:
     name: Frontend CI (Angular 10)
@@ -90,11 +108,11 @@ jobs:
           retention-days: 7
 
   # ==========================================
-  # JOB 3: Vercel Frontend Deployment (CD)
+  # JOB 4: Vercel Frontend Deployment (CD)
   # ==========================================
   deploy-frontend-vercel:
     name: Deploy Frontend to Vercel
-    needs: [ frontend-ci, backend-ci ]
+    needs: [ frontend-ci, backend-ci, gitleaks ]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
 
@@ -123,11 +141,11 @@ jobs:
           vercel-args: '--prod'
 
   # ==========================================
-  # JOB 4: Backend Cloud Deployment (CD)
+  # JOB 5: Backend Cloud Deployment (CD)
   # ==========================================
   deploy-backend:
     name: Deploy Backend API
-    needs: [ backend-ci ]
+    needs: [ backend-ci, gitleaks ]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
 

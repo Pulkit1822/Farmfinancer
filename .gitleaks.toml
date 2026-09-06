@@ -1,0 +1,16 @@
+# Gitleaks Configuration for Farmfinancer
+
+title = "Farmfinancer Gitleaks Config"
+
+[allowlist]
+description = "Allowlisted public client-side keys and test tokens"
+regexes = [
+    # Google reCAPTCHA public frontend site keys
+    '''6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI''',
+    '''6LdwGvgrAAAAAGykYEkW3V11NOZf3pY5rA_stDyJ'''
+]
+paths = [
+    '''node_modules''',
+    '''\.git''',
+    '''dist'''
+]
