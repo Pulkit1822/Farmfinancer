@@ -45,7 +45,7 @@ flowchart LR
 5. Under **Environment Variables**, add:
    - `apiUrl`: URL of your backend API (e.g., `https://farmfinancer-api.onrender.com`)
    - `baseUrl`: URL of your backend API with `/api` (e.g., `https://farmfinancer-api.onrender.com/api`)
-6. Click **Deploy**. Vercel will build and assign you a live HTTPS domain (e.g. `https://farmfinancer.vercel.app`).
+6. Click **Deploy**. Vercel will build and assign you a live HTTPS domain (e.g. `https://farmfinancer-app.vercel.app`).
 
 ### Method B: Automated Deployment via GitHub Actions
 To let the GitHub Actions pipeline deploy directly to Vercel:
