@@ -20,9 +20,22 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.PropertyNamingPolicy = null;
     });
 
-// Configure Database Context
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("con")));
+// Configure Database Context (Supports both SQL Server and In-Memory Fallback)
+var connectionString = builder.Configuration.GetConnectionString("con");
+var useInMemory = builder.Configuration.GetValue<bool>("UseInMemoryDatabase", false)
+    || string.IsNullOrWhiteSpace(connectionString)
+    || connectionString.Contains("localhost", StringComparison.OrdinalIgnoreCase);
+
+if (useInMemory)
+{
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseInMemoryDatabase("FarmFinancerDb"));
+}
+else
+{
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlServer(connectionString));
+}
 
 // Dependency Injection Services
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -156,17 +169,26 @@ app.UseCors("AllowAngular");
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Health check endpoint for uptime monitoring & cloud readiness
+// Health check endpoints for uptime monitoring & cloud readiness
 app.MapGet("/health", () => Results.Ok(new 
 { 
     status = "Healthy", 
     service = "FarmFinancer API",
+    database = useInMemory ? "InMemory" : "SqlServer",
+    timestamp = DateTime.UtcNow 
+}));
+
+app.MapGet("/api/health", () => Results.Ok(new 
+{ 
+    status = "Healthy", 
+    service = "FarmFinancer API",
+    database = useInMemory ? "InMemory" : "SqlServer",
     timestamp = DateTime.UtcNow 
 }));
 
 app.MapControllers();
 
-// Automatic database migration on startup
+// Automatic database initialization & migration on startup
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -177,11 +199,16 @@ using (var scope = app.Services.CreateScope())
         {
             context.Database.Migrate();
         }
+        else
+        {
+            context.Database.EnsureCreated();
+        }
+        DbInitializer.SeedData(context);
     }
     catch (Exception ex)
     {
         var logger = services.GetService<ILogService>();
-        logger?.LogUserAction(500, "System", $"Startup DB migration failed: {ex.Message}", "fail");
+        logger?.LogUserAction(500, "System", $"Startup DB init failed: {ex.Message}", "fail");
     }
 }
 
