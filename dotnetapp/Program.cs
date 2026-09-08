@@ -22,7 +22,11 @@ builder.Services.AddControllers()
 
 // Configure Database Context (Supports both SQL Server and In-Memory Fallback)
 var connectionString = builder.Configuration.GetConnectionString("con");
-var useInMemory = true;
+var useInMemoryConfig = builder.Configuration.GetValue<bool?>("UseInMemoryDatabase");
+var isEfDesign = AppDomain.CurrentDomain.FriendlyName.Contains("ef", StringComparison.OrdinalIgnoreCase)
+    || (Assembly.GetEntryAssembly()?.GetName().Name?.Contains("ef", StringComparison.OrdinalIgnoreCase) ?? false);
+
+var useInMemory = !isEfDesign && (useInMemoryConfig ?? (string.IsNullOrWhiteSpace(connectionString) || connectionString.Contains("localhost", StringComparison.OrdinalIgnoreCase)));
 
 if (useInMemory)
 {
@@ -32,7 +36,7 @@ if (useInMemory)
 else
 {
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(connectionString, sqlServerOptions =>
+        options.UseSqlServer(connectionString ?? "Server=localhost;Database=appdb;Trusted_Connection=True;", sqlServerOptions =>
         {
             sqlServerOptions.EnableRetryOnFailure(
                 maxRetryCount: 5,
@@ -182,7 +186,7 @@ app.MapGet("/health", () => Results.Ok(new
     status = "Healthy", 
     service = "FarmFinancer API",
     database = useInMemory ? "InMemory" : "SqlServer",
-    version = "inmemory-v1",
+    version = useInMemory ? "inmemory-v1" : "sqlserver-v1",
     timestamp = DateTime.UtcNow 
 }));
 
@@ -191,7 +195,7 @@ app.MapGet("/api/health", () => Results.Ok(new
     status = "Healthy", 
     service = "FarmFinancer API",
     database = useInMemory ? "InMemory" : "SqlServer",
-    version = "inmemory-v1",
+    version = useInMemory ? "inmemory-v1" : "sqlserver-v1",
     timestamp = DateTime.UtcNow 
 }));
 
@@ -206,16 +210,21 @@ using (var scope = app.Services.CreateScope())
         var context = services.GetRequiredService<ApplicationDbContext>();
         if (context.Database.IsRelational())
         {
+            Console.WriteLine("[Startup DB] Applying relational migrations to SQL Server...");
             context.Database.Migrate();
+            Console.WriteLine("[Startup DB] Migrations applied successfully!");
         }
         else
         {
+            Console.WriteLine("[Startup DB] Initializing in-memory database...");
             context.Database.EnsureCreated();
         }
         DbInitializer.SeedData(context);
+        Console.WriteLine("[Startup DB] Seed data initialized successfully!");
     }
     catch (Exception ex)
     {
+        Console.Error.WriteLine($"[Startup DB ERROR] Failed to initialize database: {ex.Message}");
         var logger = services.GetService<ILogService>();
         logger?.LogUserAction(500, "System", $"Startup DB init failed: {ex.Message}", "fail");
     }
