@@ -583,38 +583,20 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-/* Enhanced card demo backgrounds for better contrast */
-.card-demo-1 {
+/* Enhanced card demo backgrounds - unified blue matching real-time validation */
+.card-demo-1,
+.card-demo-2,
+.card-demo-3,
+.card-demo-4 {
   box-shadow: 0 4px 20px rgba(59, 130, 246, 0.25), inset 0 0 25px rgba(59, 130, 246, 0.12);
 }
 
-.card-demo-2 {
-  box-shadow: 0 4px 20px rgba(6, 182, 212, 0.25), inset 0 0 25px rgba(6, 182, 212, 0.12);
-}
-
-.card-demo-3 {
-  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.25), inset 0 0 25px rgba(139, 92, 246, 0.12);
-}
-
-.card-demo-4 {
-  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.25), inset 0 0 25px rgba(16, 185, 129, 0.12);
-}
-
-/* Dark mode card demo backgrounds - slightly brighter for visibility */
-:host-context(.dark) .card-demo-1 {
-  box-shadow: 0 4px 24px rgba(59, 130, 246, 0.35), inset 0 0 30px rgba(59, 130, 246, 0.2);
-}
-
-:host-context(.dark) .card-demo-2 {
-  box-shadow: 0 4px 24px rgba(6, 182, 212, 0.35), inset 0 0 30px rgba(6, 182, 212, 0.2);
-}
-
-:host-context(.dark) .card-demo-3 {
-  box-shadow: 0 4px 24px rgba(139, 92, 246, 0.35), inset 0 0 30px rgba(139, 92, 246, 0.2);
-}
-
+/* Dark mode card demo backgrounds - unified blue glow */
+:host-context(.dark) .card-demo-1,
+:host-context(.dark) .card-demo-2,
+:host-context(.dark) .card-demo-3,
 :host-context(.dark) .card-demo-4 {
-  box-shadow: 0 4px 24px rgba(16, 185, 129, 0.35), inset 0 0 30px rgba(16, 185, 129, 0.2);
+  box-shadow: 0 4px 24px rgba(59, 130, 246, 0.35), inset 0 0 30px rgba(59, 130, 246, 0.2);
 }
 
 /* Enhanced magic card effects for better visibility */
