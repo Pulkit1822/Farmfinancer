@@ -689,14 +689,14 @@
   background: radial-gradient(circle, rgba(255, 215, 0, 0.8) 0%, transparent 70%);
 }
 
-/* Enhanced card demo animations with better visibility */
+/* Card demo static positioning without inner bounce */
 .magic-card .card-demo {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  transform: none;
 }
 
 .magic-card:hover .card-demo {
-  transform: translateY(0.5rem) rotate(1deg) scale(1.02);
+  transform: none;
 }
 
 /* Better card title effects with enhanced shadows */
@@ -771,11 +771,11 @@
   object-fit: cover;
   object-position: center center;
   border-radius: 13px;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+  transform: none;
 }
 
 .magic-card:hover .card-demo-image {
-  transform: scale(1.04);
+  transform: none;
 }
 
 /* Ensure proper spacing for cards */
