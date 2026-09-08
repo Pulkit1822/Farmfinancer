@@ -22,11 +22,7 @@ builder.Services.AddControllers()
 
 // Configure Database Context (Supports both SQL Server and In-Memory Fallback)
 var connectionString = builder.Configuration.GetConnectionString("con");
-var useInMemoryConfig = builder.Configuration.GetValue<bool?>("UseInMemoryDatabase");
-var isEfDesign = AppDomain.CurrentDomain.FriendlyName.Contains("ef", StringComparison.OrdinalIgnoreCase)
-    || (Assembly.GetEntryAssembly()?.GetName().Name?.Contains("ef", StringComparison.OrdinalIgnoreCase) ?? false);
-
-var useInMemory = !isEfDesign && (useInMemoryConfig ?? (string.IsNullOrWhiteSpace(connectionString) || connectionString.Contains("localhost", StringComparison.OrdinalIgnoreCase)));
+var useInMemory = true;
 
 if (useInMemory)
 {
