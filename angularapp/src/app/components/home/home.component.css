@@ -410,7 +410,7 @@
 }
 
 .features-container {
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
 }
 
@@ -420,8 +420,8 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 2rem;
-  margin-bottom: 3rem;
-  padding: 0 2rem;
+  margin-bottom: 3.5rem;
+  padding: 0 1.5rem;
 }
 
 .features-title {
@@ -463,9 +463,10 @@
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-  padding: 0 2rem;
-  max-width: 1400px;
+  row-gap: 4rem;
+  column-gap: 2.5rem;
+  padding: 0 1.5rem;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -805,7 +806,8 @@
   .cards-grid {
     grid-template-columns: 1fr;
     padding: 0 1rem;
-    gap: 1.5rem;
+    row-gap: 3rem;
+    column-gap: 0;
   }
   
   .col-span-4,
