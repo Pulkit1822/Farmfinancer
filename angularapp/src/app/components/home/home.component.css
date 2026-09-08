@@ -477,6 +477,10 @@
   grid-column: span 4;
 }
 
+.col-span-6 {
+  grid-column: span 6;
+}
+
 .col-span-8 {
   grid-column: span 8;
 }
@@ -487,7 +491,10 @@
 
 .bounce-card {
   position: relative;
-  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 400px;
   background: rgba(255, 255, 255, 0.85); /* More transparent for better magic effects */
   border-radius: 16px;
   padding: 2rem;
@@ -549,9 +556,14 @@
   color: #4a5568;
   line-height: 1.6;
   margin: 0 0 1.5rem 0;
+  min-height: 4.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 2;
   position: relative;
   font-weight: 400;
+  flex-shrink: 0;
 }
 
 .card-description p {
@@ -573,44 +585,36 @@
 
 /* Enhanced card demo backgrounds for better contrast */
 .card-demo-1 {
-  background: transparent;
-  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.25), inset 0 0 25px rgba(59, 130, 246, 0.12);
 }
 
 .card-demo-2 {
-  background: transparent;
-  box-shadow: 0 4px 20px rgba(6, 182, 212, 0.3);
+  box-shadow: 0 4px 20px rgba(6, 182, 212, 0.25), inset 0 0 25px rgba(6, 182, 212, 0.12);
 }
 
 .card-demo-3 {
-  background: transparent;
-  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.25), inset 0 0 25px rgba(139, 92, 246, 0.12);
 }
 
 .card-demo-4 {
-  background: transparent;
-  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.25), inset 0 0 25px rgba(16, 185, 129, 0.12);
 }
 
 /* Dark mode card demo backgrounds - slightly brighter for visibility */
 :host-context(.dark) .card-demo-1 {
-  background: transparent;
-  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
+  box-shadow: 0 4px 24px rgba(59, 130, 246, 0.35), inset 0 0 30px rgba(59, 130, 246, 0.2);
 }
 
 :host-context(.dark) .card-demo-2 {
-  background: transparent;
-  box-shadow: 0 4px 20px rgba(8, 145, 178, 0.4);
+  box-shadow: 0 4px 24px rgba(6, 182, 212, 0.35), inset 0 0 30px rgba(6, 182, 212, 0.2);
 }
 
 :host-context(.dark) .card-demo-3 {
-  background: transparent;
-  box-shadow: 0 4px 20px rgba(5, 150, 105, 0.4);
+  box-shadow: 0 4px 24px rgba(139, 92, 246, 0.35), inset 0 0 30px rgba(139, 92, 246, 0.2);
 }
 
 :host-context(.dark) .card-demo-4 {
-  background: transparent;
-  box-shadow: 0 4px 20px rgba(217, 119, 6, 0.4);
+  box-shadow: 0 4px 24px rgba(16, 185, 129, 0.35), inset 0 0 30px rgba(16, 185, 129, 0.2);
 }
 
 /* Enhanced magic card effects for better visibility */
@@ -742,36 +746,41 @@
 /* Card demo image styling */
 .card-demo {
   position: relative;
-  height: 100%;
-  min-height: 200px;
+  width: 100%;
+  height: 270px;
+  min-height: 240px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
   padding: 0;
+  background: #020617;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:host-context(.dark) .card-demo {
+  background: #020617;
+  border: 1px solid rgba(212, 175, 55, 0.3);
 }
 
 .card-demo-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
-  border-radius: 12px;
-  transition: transform 0.3s ease;
+  object-position: center center;
+  border-radius: 13px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
 }
 
 .magic-card:hover .card-demo-image {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 
-/* Ensure proper spacing for different card sizes */
-.col-span-4 .card-demo {
-  min-height: 180px;
-}
-
-.col-span-8 .card-demo {
-  min-height: 200px;
+/* Ensure proper spacing for cards */
+.col-span-6 .card-demo {
+  height: 270px;
 }
 
 /* Enhanced FAQ Section for better theme consistency */
@@ -802,7 +811,29 @@
   box-shadow: 0 6px 16px rgba(212, 175, 55, 0.5);
 }
 
-/* Enhanced responsive magic effects */
+/* Enhanced responsive magic effects and cards */
+@media (max-width: 992px) {
+  .cards-grid {
+    padding: 0 1rem;
+    gap: 1.5rem;
+  }
+  
+  .col-span-4,
+  .col-span-6,
+  .col-span-8 {
+    grid-column: span 12;
+  }
+  
+  .card-description {
+    min-height: auto;
+  }
+  
+  .card-demo,
+  .col-span-6 .card-demo {
+    height: 250px;
+  }
+}
+
 @media (max-width: 768px) {
   .magic-card::after {
     opacity: 0.7; /* Reduce intensity on mobile for performance */
@@ -814,6 +845,18 @@
   
   .bounce-card.magic-card:hover {
     transform: scale(0.98) translateY(-2px);
+  }
+}
+
+@media (max-width: 576px) {
+  .bounce-card {
+    padding: 1.5rem 1rem;
+  }
+  
+  .card-demo,
+  .col-span-6 .card-demo {
+    height: 200px;
+    min-height: 180px;
   }
 }
 

@@ -52,8 +52,8 @@
     
     <!-- First Row -->
     <div class="cards-grid mb-4">
-      <!-- Card 1: Small card (4 columns) -->
-      <div class="bounce-card magic-card col-span-4" 
+      <!-- Card 1: Real-Time Validation -->
+      <div class="bounce-card magic-card col-span-6" 
            #card1
            (mouseenter)="onCardHover(0); onCardMouseEnter($event, card1)" 
            (mouseleave)="onCardLeave(0); onCardMouseLeave($event, card1)"
@@ -62,15 +62,15 @@
            [class.hovered]="hoveredCard === 0">
         <h3 class="card-title">Real-Time Validation</h3>
         <div class="card-description">
-          <p>Instant feedback as you type. Prevents errors at the keypress level with smart character limits and live warnings.</p>
+          <p>Instant feedback as you type. Prevents errors at the keypress level with smart character limits and live warnings for seamless applications.</p>
         </div>
         <div class="card-demo card-demo-1">
-          <img src="https://res.cloudinary.com/dsf0guzl6/image/upload/v1761690303/Screenshot_2025-10-29_at_3.39.47_AM_dlufwl.png" alt="Real-Time Validation" class="card-demo-image">
+          <img src="assets/real-time-validation.png" alt="Real-Time Validation" class="card-demo-image">
         </div>
       </div>
       
-      <!-- Card 2: Large card (8 columns) -->
-      <div class="bounce-card magic-card col-span-8" 
+      <!-- Card 2: Complete Loan Status Tracking -->
+      <div class="bounce-card magic-card col-span-6" 
            #card2
            (mouseenter)="onCardHover(1); onCardMouseEnter($event, card2)" 
            (mouseleave)="onCardLeave(1); onCardMouseLeave($event, card2)"
@@ -82,15 +82,15 @@
           <p>Monitor all your loan applications in real-time. See which loans are pending, approved, or rejected with visual indicators and detailed information at your fingertips.</p>
         </div>
         <div class="card-demo card-demo-2">
-          <img src="https://res.cloudinary.com/dsf0guzl6/image/upload/v1761690847/Screenshot_2025-10-29_at_3.38.11_AM_zk9q7y.png" class="card-demo-image">
+          <img src="assets/loan-status-tracking.png" alt="Complete Loan Status Tracking" class="card-demo-image">
         </div>
       </div>
     </div>
     
     <!-- Second Row -->
     <div class="cards-grid">
-      <!-- Card 3: Large card (8 columns) -->
-      <div class="bounce-card magic-card col-span-8" 
+      <!-- Card 3: Transparent Admin Approval -->
+      <div class="bounce-card magic-card col-span-6" 
            #card3
            (mouseenter)="onCardHover(2); onCardMouseEnter($event, card3)" 
            (mouseleave)="onCardLeave(2); onCardMouseLeave($event, card3)"
@@ -102,12 +102,12 @@
           <p>Secure role-based admin system with detailed feedback on loan decisions. Admins review applications systematically, ensuring accountability and fair evaluation of every request.</p>
         </div>
         <div class="card-demo card-demo-3">
-          <img src="https://res.cloudinary.com/dsf0guzl6/image/upload/v1761690410/Screenshot_2025-10-29_at_3.41.57_AM_ssakxk.png" alt="Transparent Admin Approval" class="card-demo-image">
+          <img src="assets/transparent-admin-approval.png" alt="Transparent Admin Approval" class="card-demo-image">
         </div>
       </div>
       
-      <!-- Card 4: Small card (4 columns) -->
-      <div class="bounce-card magic-card col-span-4" 
+      <!-- Card 4: Agriculture-Focused Forms -->
+      <div class="bounce-card magic-card col-span-6" 
            #card4
            (mouseenter)="onCardHover(3); onCardMouseEnter($event, card4)" 
            (mouseleave)="onCardLeave(3); onCardMouseLeave($event, card4)"
@@ -119,7 +119,7 @@
           <p>Specialized loan forms designed for farmers with field-specific constraints. Captures all essential agricultural data with validation tailored to farming needs.</p>
         </div>
         <div class="card-demo card-demo-4">
-          <img src="https://res.cloudinary.com/dsf0guzl6/image/upload/v1761690303/Screenshot_2025-10-29_at_3.39.47_AM_dlufwl.png" alt="Agriculture-Focused Forms" class="card-demo-image">
+          <img src="assets/agriculture-focused-forms.png" alt="Agriculture-Focused Forms" class="card-demo-image">
         </div>
       </div>
     </div>
