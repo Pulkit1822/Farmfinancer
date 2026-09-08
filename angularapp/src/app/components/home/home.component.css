@@ -469,6 +469,7 @@
   padding: 0 1.5rem;
   width: 100%;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 /* Add margin bottom utility */
@@ -493,11 +494,17 @@
   grid-column: span 12;
 }
 
+.bounce-card,
+.bounce-card * {
+  box-sizing: border-box;
+}
+
 .bounce-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  box-sizing: border-box;
+  height: auto;
   min-height: 400px;
   background: rgba(255, 255, 255, 0.85); /* More transparent for better magic effects */
   border-radius: 16px;
