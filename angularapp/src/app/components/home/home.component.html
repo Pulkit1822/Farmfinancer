@@ -50,10 +50,10 @@
       </button>
     </div>
     
-    <!-- First Row -->
-    <div class="cards-grid mb-4">
+    <!-- Feature Cards Grid (Unified 2x2) -->
+    <div class="cards-grid">
       <!-- Card 1: Real-Time Validation -->
-      <div class="bounce-card magic-card col-span-6" 
+      <div class="bounce-card magic-card" 
            #card1
            (mouseenter)="onCardHover(0); onCardMouseEnter($event, card1)" 
            (mouseleave)="onCardLeave(0); onCardMouseLeave($event, card1)"
@@ -70,7 +70,7 @@
       </div>
       
       <!-- Card 2: Complete Loan Status Tracking -->
-      <div class="bounce-card magic-card col-span-6" 
+      <div class="bounce-card magic-card" 
            #card2
            (mouseenter)="onCardHover(1); onCardMouseEnter($event, card2)" 
            (mouseleave)="onCardLeave(1); onCardMouseLeave($event, card2)"
@@ -85,12 +85,9 @@
           <img src="assets/loan-status-tracking.png" alt="Complete Loan Status Tracking" class="card-demo-image">
         </div>
       </div>
-    </div>
-    
-    <!-- Second Row -->
-    <div class="cards-grid">
+
       <!-- Card 3: Transparent Admin Approval -->
-      <div class="bounce-card magic-card col-span-6" 
+      <div class="bounce-card magic-card" 
            #card3
            (mouseenter)="onCardHover(2); onCardMouseEnter($event, card3)" 
            (mouseleave)="onCardLeave(2); onCardMouseLeave($event, card3)"
@@ -107,7 +104,7 @@
       </div>
       
       <!-- Card 4: Agriculture-Focused Forms -->
-      <div class="bounce-card magic-card col-span-6" 
+      <div class="bounce-card magic-card" 
            #card4
            (mouseenter)="onCardHover(3); onCardMouseEnter($event, card4)" 
            (mouseleave)="onCardLeave(3); onCardMouseLeave($event, card4)"

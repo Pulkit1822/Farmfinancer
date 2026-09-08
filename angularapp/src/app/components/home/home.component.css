@@ -459,12 +459,14 @@
   transform: scale(1.05);
 }
 
-/* Cards Grid - Catalog Layout */
+/* Cards Grid - 2x2 Layout with ample spacing */
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
   padding: 0 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 /* Add margin bottom utility */
@@ -500,7 +502,8 @@
   padding: 2rem;
   cursor: pointer;
   overflow: hidden;
-  transition: all 0.25s ease;
+  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  z-index: 1;
   
   /* Enhanced backdrop filter for better separation from grid */
   backdrop-filter: blur(15px);
@@ -512,7 +515,8 @@
 }
 
 .bounce-card:hover {
-  transform: scale(0.95) rotate(-1deg);
+  transform: translateY(-4px);
+  z-index: 10;
   background: rgba(255, 255, 255, 0.9);
   border-color: rgba(212, 175, 55, 0.3);
   box-shadow: 
@@ -530,6 +534,8 @@
 }
 
 :host-context(.dark) .bounce-card:hover {
+  transform: translateY(-4px);
+  z-index: 10;
   background: rgba(25, 30, 35, 0.9);
   border-color: rgba(212, 175, 55, 0.35);
   box-shadow:
@@ -700,9 +706,10 @@
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
 }
 
-/* Enhanced bounce effect with better scaling */
+/* Card hover lift without rotation or scaling overlap */
 .bounce-card.magic-card:hover {
-  transform: scale(0.97) rotate(-0.5deg) translateY(-6px);
+  transform: translateY(-4px);
+  z-index: 10;
 }
 
 /* Demo content enhancements */
@@ -796,6 +803,7 @@
 /* Enhanced responsive magic effects and cards */
 @media (max-width: 992px) {
   .cards-grid {
+    grid-template-columns: 1fr;
     padding: 0 1rem;
     gap: 1.5rem;
   }
